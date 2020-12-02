@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteException;
  * Permite crear el objeto de Base de Datos con la ayuda del Helper
  */
 public abstract class Persistencia {
-    private static final String DATABASE = "db_Libros.db";
+    private static final String DATABASE = "db_delivery.db";
     private static final int VERSION = 1;
     private SQLiteDatabase db;
     private HelperSQLite helpDB;

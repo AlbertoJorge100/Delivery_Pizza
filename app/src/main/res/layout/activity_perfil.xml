@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.049" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName3"
+        android:id="@+id/txbTelefono"
         android:layout_width="280dp"
         android:layout_height="58dp"
         android:ems="10"
@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="0.279" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/txbNombre"
         android:layout_width="281dp"
         android:layout_height="64dp"
         android:ems="10"
@@ -49,7 +49,7 @@
         app:layout_constraintVertical_bias="0.16" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName4"
+        android:id="@+id/txbCorreo"
         android:layout_width="281dp"
         android:layout_height="61dp"
         android:ems="10"
@@ -62,7 +62,7 @@
         app:layout_constraintVertical_bias="0.395" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName6"
+        android:id="@+id/txbUsuario"
         android:layout_width="283dp"
         android:layout_height="56dp"
         android:ems="10"
@@ -76,7 +76,7 @@
         app:layout_constraintVertical_bias="0.623" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnRegistro"
         android:layout_width="118dp"
         android:layout_height="45dp"
         android:background="#A184A5"
@@ -89,7 +89,7 @@
         app:layout_constraintVertical_bias="0.868" />
 
     <EditText
-        android:id="@+id/editTextTextPassword2"
+        android:id="@+id/txbPassword"
         android:layout_width="283dp"
         android:layout_height="58dp"
         android:ems="10"
@@ -103,7 +103,7 @@
         app:layout_constraintVertical_bias="0.751" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName5"
+        android:id="@+id/txbDireccion"
         android:layout_width="283dp"
         android:layout_height="58dp"
         android:ems="10"

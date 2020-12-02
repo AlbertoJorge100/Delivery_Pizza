@@ -31,12 +31,23 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
         ViewHolderProducto vhInformacion=new ViewHolderProducto(vista);
         return vhInformacion;
     }
-
+    private String ValidarLongitud(int parametro,String titulo){
+        switch(parametro){
+            case 1:
+                if(titulo.length()>45)
+                    return titulo.substring(0,45);
+            case 2:
+                if(titulo.length()>80)
+                    return titulo.substring(0,70);
+            default:
+                return titulo;
+        }
+    }
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProducto holder, int position) {
-        holder.getLblProducto().setText(listaInformacion.get(position).getProducto());
+        holder.getLblProducto().setText(ValidarLongitud(1,listaInformacion.get(position).getProducto()));
         holder.getLblPrecio().setText("$ "+Double.toString(listaInformacion.get(position).getPrecio()));
-        holder.getLblDescripcion().setText(listaInformacion.get(position).getDescripcion());
+        holder.getLblDescripcion().setText(ValidarLongitud(2,listaInformacion.get(position).getDescripcion()));
         //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
         Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
 

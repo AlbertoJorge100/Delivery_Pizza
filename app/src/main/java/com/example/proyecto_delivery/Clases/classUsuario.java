@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteException;
 
 import com.example.proyecto_delivery.BaseDatos.Persistencia;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class classUsuario extends Persistencia {
     private String Nombres;
     private int IdUsuario;
@@ -25,7 +28,7 @@ public class classUsuario extends Persistencia {
     public static final String PASSWORD = "Password";
 
     public static final String QUERY_CREATE_TABLE =
-            "CREATE TABLE Usuario(" +ID_USUARIO+
+            "CREATE TABLE "+TABLA_USUARIOS+" (" +ID_USUARIO+
                     " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     NOMBRE+" TEXT NOT NULL, " +
                     TELEFONO+" TEXT NOT NULL, " +
@@ -81,10 +84,37 @@ public class classUsuario extends Persistencia {
         super.Cerrar();
         return valReturn;
     }
+
+    public List<classUsuario> GetAllUsuarios(){
+        List<classUsuario> listUsuario = new ArrayList<>();
+        super.Abrir();
+        Cursor listReturn = this.GetAll();
+        //Validamos que exista información en el cursor
+        if(listReturn != null && listReturn.getCount() > 0){
+            //Moverse al primer elemento
+            listReturn.moveToFirst();
+            do{
+                //Creamos el libro que se incluira en la lista
+                classUsuario nuevoUsuario = new classUsuario();
+                nuevoUsuario.setIdUsuario(listReturn.getInt(0));
+                nuevoUsuario.setNombres(listReturn.getString(1));
+                nuevoUsuario.setTelefono(listReturn.getString(2));
+                nuevoUsuario.setCorreo(listReturn.getString(3));
+                nuevoUsuario.setDireccion(listReturn.getString(4));
+                nuevoUsuario.setUsuario(listReturn.getString(5));
+                nuevoUsuario.setPassword(listReturn.getString(6));
+                //Agregamos a la lista
+                listUsuario.add(nuevoUsuario);
+            }while (listReturn.moveToNext());
+        }
+        super.Cerrar();
+        return listUsuario;
+    }
+    /*
     public boolean GetUsuario(int IdUsuario){
         boolean valReturn = false;
         super.Abrir();//Pendiente de revision
-        Cursor usuarioEncontrado = super.getDataBase().query(TABLA_USUARIOS,FIELDS,ID_USUARIO + Integer.toString(IdUsuario),null,null,null,null);
+        Cursor usuarioEncontrado = super.getDataBase().query(TABLA_USUARIOS,FIELDS,ID_USUARIO +" = "+ Integer.toString(IdUsuario),null,null,null,null);
         //Validamos que exista información en el cursor
         if(usuarioEncontrado != null && usuarioEncontrado.getCount() == 1){
             usuarioEncontrado.moveToFirst();
@@ -100,7 +130,26 @@ public class classUsuario extends Persistencia {
         super.Cerrar();
         return valReturn;
     }
-
+    */
+    public boolean GetUsuario(String usuario){
+        boolean valReturn = false;
+        super.Abrir();//Pendiente de revision
+        Cursor usuarioEncontrado = super.getDataBase().query(TABLA_USUARIOS,FIELDS,USUARIO +" = "+"'"+usuario+"'",null,null,null,null);
+        //Validamos que exista información en el cursor
+        if(usuarioEncontrado != null && usuarioEncontrado.getCount() == 1){
+            usuarioEncontrado.moveToFirst();
+            this.setIdUsuario(usuarioEncontrado.getInt(0));
+            this.setNombres(usuarioEncontrado.getString(1));
+            this.setTelefono(usuarioEncontrado.getString(2));
+            this.setCorreo(usuarioEncontrado.getString(3));
+            this.setDireccion(usuarioEncontrado.getString(4));
+            this.setUsuario(usuarioEncontrado.getString(5));
+            this.setPassword(usuarioEncontrado.getString(6));
+            valReturn = true;
+        }
+        super.Cerrar();
+        return valReturn;
+    }
     @Override
     public boolean Delete() {
         boolean valReturn = false;
@@ -113,7 +162,9 @@ public class classUsuario extends Persistencia {
     }
     @Override
     protected Cursor GetAll() {
-        return null;
+        Cursor listReturn = null;
+        listReturn = super.getDataBase().query(TABLA_USUARIOS, FIELDS,null,null,null,null,null);
+        return listReturn;
     }
 
     public String getNombres() {

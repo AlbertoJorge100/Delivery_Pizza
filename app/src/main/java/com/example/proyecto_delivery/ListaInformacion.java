@@ -1,5 +1,6 @@
 package com.example.proyecto_delivery;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -35,6 +36,8 @@ public class ListaInformacion extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Mensaje: "
                         +lista.get(listaInformacion.getChildAdapterPosition(view)).getTitulo(),Toast.LENGTH_SHORT).show();
+                Intent intn=new Intent(ListaInformacion.this, ListaProducto.class);
+                startActivity(intn);
             }
         });
     }

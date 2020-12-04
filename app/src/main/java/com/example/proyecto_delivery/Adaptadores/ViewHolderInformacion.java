@@ -21,7 +21,7 @@ public class ViewHolderInformacion extends RecyclerView.ViewHolder implements Vi
         this.lblSubtitulo=itemView.findViewById(R.id.lblSubtitulo);
         this.lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
         //this.btnCompartir=itemView.findViewById(R.id.btnCompartir);
-        this.Imagen=itemView.findViewById(R.id.imvProducto);
+        this.Imagen=itemView.findViewById(R.id.imgProducto);
     }
 
     public TextView getLblTitulo() {

@@ -6,21 +6,18 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icono_delivery_foreground"
         android:label="DELIVERY FOOD !"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListaProducto"></activity>
+        <activity android:name=".ListaFactura"></activity>
+        <activity android:name=".ListaCompra" />
+        <activity android:name=".ListaCarrito" />
+        <activity android:name=".ListaProducto" />
         <activity android:name=".PizzaDtActivity" />
-        <activity android:name=".HamburguesaActivity" />
-        <activity android:name=".PolloActivity" />
         <activity android:name=".ListaInformacion" />
-        <activity android:name=".PizzaActivity" />
-        <activity android:name=".TarjetaActivity" />
         <activity android:name=".PerfilActivity" />
-        <activity android:name=".CuentaActivity" />
-        <activity android:name=".PromocionesActivity" />
         <activity android:name=".RegistroActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

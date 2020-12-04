@@ -1,12 +1,17 @@
 package com.example.proyecto_delivery;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.proyecto_delivery.Clases.classUsuario;
+import com.example.proyecto_delivery.Utilerias.Hash;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,6 +19,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+
         TextView txbRegistro = findViewById(R.id.txbRegistro);
         final TextView txbUsuario = findViewById(R.id.txbUsuario);
         final TextView txbContrasena = findViewById(R.id.txbContrasena);
@@ -21,22 +30,27 @@ public class MainActivity extends AppCompatActivity {
         btnSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intn=new Intent(MainActivity.this,ListaInformacion.class);
-                startActivity(intn);
-                /*
                 if(ValidarCampos(new TextView[]{txbUsuario,txbContrasena})){
                     classUsuario usuario=new classUsuario(MainActivity.this);
                     if(usuario.GetUsuario(txbUsuario.getText().toString())){
-                        if(txbContrasena.getText().toString().equals(usuario.getPassword())){
-                            Intent intn=new Intent(MainActivity.this,ListaInformacion.class);
-                            startActivity(intn);
+                        //Encriptacion de contraseña ingresada x el usuario
+                        String contraseña= Hash.generarHash(txbContrasena.getText().toString(),Hash.SHA256);
+                        if(contraseña.equals(usuario.getPassword())){
+                            Intent intsn=new Intent(MainActivity.this,ListaInformacion.class);
+                            startActivity(intsn);
+                            ListaInformacion.Nombres=usuario.getNombres();
+                            ListaInformacion.Correo=usuario.getCorreo();
+                            ListaInformacion.Direccion=usuario.getDireccion();
+                            ListaInformacion.Telefono=usuario.getTelefono();
+                            ListaInformacion.Usuario=usuario.getUsuario();
+                            ListaInformacion.IdCliente=usuario.getIdUsuario();
                         }else{
                             Toast.makeText(MainActivity.this,usuario.getNombres()+" tu contraseña es incorrecta !",Toast.LENGTH_SHORT).show();
                         }
                     }else{
                         Toast.makeText(MainActivity.this,"El usuario no existe !",Toast.LENGTH_SHORT).show();
                     }
-                }*/
+                }
             }
         });
         txbRegistro.setOnClickListener(new View.OnClickListener() {

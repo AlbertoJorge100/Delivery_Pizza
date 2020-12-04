@@ -17,7 +17,7 @@ import java.util.List;
 public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> implements View.OnClickListener{
     private List<Producto> listaInformacion;
     private View.OnClickListener listener;
-    public AdaptadorProducto(List<Producto> listaInformacion){
+        public AdaptadorProducto(List<Producto> listaInformacion){
         this.listaInformacion=listaInformacion;
     }
 

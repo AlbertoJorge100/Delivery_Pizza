@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.proyecto_delivery.Clases.classFactura;
+import com.example.proyecto_delivery.Clases.classProducto;
 import com.example.proyecto_delivery.Clases.classUsuario;
 
 /**
@@ -21,6 +23,8 @@ public class HelperSQLite extends SQLiteOpenHelper {
         //Permite la creación de la base de datos->[Tablas]
         //sqLiteDatabase.execSQL(classLibros.QUERY_CREATE_TABLE);
         sqLiteDatabase.execSQL(classUsuario.QUERY_CREATE_TABLE);
+        sqLiteDatabase.execSQL(classProducto.QUERY_CREATE_TABLE);
+        sqLiteDatabase.execSQL(classFactura.QUERY_CREATE_TABLE);
         //.......
     }
 
@@ -29,6 +33,8 @@ public class HelperSQLite extends SQLiteOpenHelper {
         //Permite la actualización de la base de datos--->[Tablas]
         //sqLiteDatabase.execSQL(classLibros.QUERY_DROP_TABLE);
         sqLiteDatabase.execSQL(classUsuario.QUERY_DROP_TABLE);
+        sqLiteDatabase.execSQL(classProducto.QUERY_DROP_TABLE);
+        sqLiteDatabase.execSQL(classFactura.QUERY_DROP_TABLE);
         //.....
         onCreate(sqLiteDatabase);
     }

@@ -1,5 +1,7 @@
 package com.example.proyecto_delivery;
 
+import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,9 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_delivery.Clases.classUsuario;
+import com.example.proyecto_delivery.Utilerias.Hash;
 
 public class RegistroActivity extends AppCompatActivity {
     private TextView txbNombre;
@@ -23,6 +27,9 @@ public class RegistroActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         this.txbNombre=findViewById(R.id.txbNombre);
         this.txbTelefono=findViewById(R.id.txbTelefono);
         this.txbCorreo=findViewById(R.id.txbCorreo);
@@ -58,7 +65,7 @@ public class RegistroActivity extends AppCompatActivity {
         }
         return resultado;
     }
-    private void GuardarLibro() {
+    private void GuardarLibro() {//Perdon Cliente jeje
         classUsuario registro=new classUsuario(this);
         try {
             //Validamos que los campos esten completados
@@ -68,11 +75,21 @@ public class RegistroActivity extends AppCompatActivity {
                 registro.setDireccion(this.txbDireccion.getText().toString());
                 registro.setCorreo(this.txbCorreo.getText().toString());
                 registro.setUsuario(this.txbUsuario.getText().toString());
-                registro.setPassword(this.txbPassword.getText().toString());
+                //Encriptacion de contraseña con SHA_256
+                registro.setPassword(Hash.generarHash(this.txbPassword.getText().toString(),Hash.SHA256));
                 //Agregamos el libro a la base de datos
                 if(registro.Insert()){
-                    Toast.makeText(this, "Datos Agregados exitosamente !", Toast.LENGTH_SHORT).show();
-                    //finish();
+                    AlertDialog.Builder builder=new AlertDialog.Builder(RegistroActivity.this);
+                    builder.setTitle("Mensaje");
+                    builder.setMessage("El usuario se ha registrado exitosamente !");
+                    builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+                    AlertDialog dialog=builder.create();
+                    dialog.show();
                 }else{
                     Toast.makeText(this, "No fue posible Agregar los datos!", Toast.LENGTH_SHORT).show();
                 }

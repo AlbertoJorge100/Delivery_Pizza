@@ -78,7 +78,7 @@ public class classUsuario extends Persistencia {
         valoresUpdate.put(FIELDS[5], this.Usuario);
         valoresUpdate.put(FIELDS[6], this.Password);
         super.Abrir();
-        if(super.getDataBase().update(TABLA_USUARIOS, valoresUpdate, FIELDS[0] +"=" + Integer.toString(this.IdUsuario),null) > 0 ){
+        if(super.getDataBase().update(TABLA_USUARIOS, valoresUpdate, FIELDS[0] +" = " + Integer.toString(this.IdUsuario),null) > 0 ){
             valReturn = true;
         }
         super.Cerrar();

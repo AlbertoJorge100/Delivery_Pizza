@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-<item
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/persona"
+        android:icon="@drawable/persona"
+        app:showAsAction="always"
+        android:title="persona"
+        />
+
+
+    <item
     android:id="@+id/carrito"
     android:icon="@drawable/icon_carrito"
     app:showAsAction="always"
-    android:title="TODO" />
+    android:title="Carrito"
+    />
+
+
 
 
 </menu>

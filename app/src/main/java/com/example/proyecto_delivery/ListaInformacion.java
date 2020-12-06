@@ -67,7 +67,7 @@ public class ListaInformacion extends AppCompatActivity {
         //Toolbar
         toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Menu Principal");
+        getSupportActionBar().setTitle("Menu Principal ");
 
 
         this.adaptador.setOnClickListener(new View.OnClickListener() {
@@ -108,9 +108,11 @@ public class ListaInformacion extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
+        //item.add
         switch(item.getItemId()){
             case R.id.carrito:
                 if(ListaInformacion.ListaCarrito.size()>0){

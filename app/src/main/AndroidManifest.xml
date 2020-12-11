@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/icono_delivery_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ListaFactura"></activity>
+        <activity android:name=".Login"></activity>
+        <activity android:name=".ListaFactura" />
         <activity android:name=".ListaCompra" />
         <activity android:name=".ListaCarrito" />
         <activity android:name=".ListaProducto" />

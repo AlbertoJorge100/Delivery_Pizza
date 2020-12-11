@@ -148,16 +148,16 @@ public class ListaProducto extends AppCompatActivity {
         info4.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Wb53909.png");
 
         Producto info5 = new Producto();
-        info5.setProducto("Banquete 30 Alitas + Pizza Gigante 1 Ingrediente");
-        info5.setPrecio((double) 20);
-        info5.setDescripcion("Banquete 30 alitas, con 4 acompañamientos, 3 aderezos y una pizza grande de un ingrediente.");
-        info5.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Wb53992A.png");
+        info5.setProducto("3/4 lb triple");
+        info5.setPrecio(6.25);
+        info5.setDescripcion("aborea esta hamburguesa de tres jugosas carnes de res, envueltas en queso americano derretido");
+        info5.setImagen("https://www.wendys.com.sv/static/media/images/products/webp/CMB_593_MD.webp?2.0.7");
 
         Producto info6 = new Producto();
-        info6.setProducto("Banquete 30 Alitas + Pizza Gigante De Especialidad");
-        info6.setPrecio((double) 20);
-        info6.setDescripcion("Banquete 30 alitas, con 4 acompañamientos, 3 aderezos y una pizza gigante de especialidad");
-        info6.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Wb58013A.png");
+        info6.setProducto("baconator doble");
+        info6.setPrecio(6.05);
+        info6.setDescripcion("Tocino ahumado sobre carne fresca, nunca congelada y cocida al momento.");
+        info6.setImagen("https://www.wendys.com.sv/static/media/images/products/webp/CMB_599_MD.webp?2.0.7");
 
         lista.add(info1);
         lista.add(info2);

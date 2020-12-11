@@ -3,73 +3,70 @@ package com.example.proyecto_delivery;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.Handler;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyecto_delivery.Clases.classUsuario;
-import com.example.proyecto_delivery.Utilerias.Hash;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        ImageView imgContenedor=findViewById(R.id.imgContenedor);
+        String imagen="https://image.freepik.com/vector-gratis/pizza-delivery-service-flat-vector-illustration_82574-2658.jpg";
+        Picasso.get().load(imagen).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) imgContenedor);
+        EnviarData();
 
+        //EnviarData();
 
-        TextView txbRegistro = findViewById(R.id.txbRegistro);
-        final TextView txbUsuario = findViewById(R.id.txbUsuario);
-        final TextView txbContrasena = findViewById(R.id.txbContrasena);
-        Button btnSesion=findViewById(R.id.btnSesion);
-        btnSesion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(ValidarCampos(new TextView[]{txbUsuario,txbContrasena})){
-                    classUsuario usuario=new classUsuario(MainActivity.this);
-                    if(usuario.GetUsuario(txbUsuario.getText().toString())){
-                        //Encriptacion de contraseña ingresada x el usuario
-                        String contraseña= Hash.generarHash(txbContrasena.getText().toString(),Hash.SHA256);
-                        if(contraseña.equals(usuario.getPassword())){
-                            Intent intsn=new Intent(MainActivity.this,ListaInformacion.class);
-                            startActivity(intsn);
-                            ListaInformacion.Nombres=usuario.getNombres();
-                            ListaInformacion.Correo=usuario.getCorreo();
-                            ListaInformacion.Direccion=usuario.getDireccion();
-                            ListaInformacion.Telefono=usuario.getTelefono();
-                            ListaInformacion.Usuario=usuario.getUsuario();
-                            ListaInformacion.IdCliente=usuario.getIdUsuario();
-                        }else{
-                            Toast.makeText(MainActivity.this,usuario.getNombres()+" tu contraseña es incorrecta !",Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(MainActivity.this,"El usuario no existe !",Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
-        txbRegistro.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intn=new Intent(MainActivity.this,RegistroActivity.class);
-                startActivity(intn);
-
-            }
-        });
     }
-    private Boolean ValidarCampos(TextView []datos){
-        Boolean resultado=true;
-        for(TextView aux:datos){
-            if(aux.getText().toString().equals("")){
-                resultado=false;
-                aux.setError("Campo obligatorio !");
+    private void EnviarData(){
+        final ProgressBar progressBar=findViewById(R.id.pbCargando);
+        progressBar.setProgress(0);
+        progressBar.setMax(100);
+        final Handler handler = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int progreso = 0;
+                while (progreso < 100){
+                    //simular proceso
+                    try{
+                        Thread.sleep(50);
+                    }
+                    catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    progreso++;
+
+                    //actualizar progresbar
+                    final int finalProgreso = progreso;
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBar.setProgress(finalProgreso);
+                        }
+                    });
+
+                }
+                MainActivity.this.finish();
+                Intent intn=new Intent(MainActivity.this,Login.class);
+                startActivity(intn);
             }
-        }
-        return resultado;
+        }).start();
+        //Toast.makeText(MainActivity.this,"finalizada",Toast.LENGTH_SHORT).show();
+
+        /**/
+
     }
 }

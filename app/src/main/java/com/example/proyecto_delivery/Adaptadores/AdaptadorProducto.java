@@ -43,8 +43,10 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
                 return titulo;
         }
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProducto holder, int position) {
+        holder.getLblIdProducto().setText(Integer.toString(listaInformacion.get(position).getIdProducto()));
         holder.getLblProducto().setText(ValidarLongitud(1,listaInformacion.get(position).getProducto()));
         holder.getLblPrecio().setText("$ "+Double.toString(listaInformacion.get(position).getPrecio()));
         holder.getLblDescripcion().setText(ValidarLongitud(2,listaInformacion.get(position).getDescripcion()));

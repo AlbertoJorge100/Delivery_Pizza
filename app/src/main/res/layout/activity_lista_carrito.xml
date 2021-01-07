@@ -9,58 +9,88 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ListaCarrito"
+        android:id="@+id/ListaCarritos"
         android:layout_width="match_parent"
-        android:layout_height="275dp">
+        android:layout_height="479dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
         android:layout_marginTop="15dp"
+        android:layout_marginRight="50dp"
         android:layout_marginBottom="15dp"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cantidad de productos: "
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/lblCantidad"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="0"
-            android:textAlignment="textStart"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="189dp"
-            android:layout_height="wrap_content"
-            android:text="Total a pagar: "
-            android:textAlignment="textEnd"
-            android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/lblTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="0"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Items"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/CarritolblItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Productos"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/CarritolblProductos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Total a pagar"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/Carrito_lblTotal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textColor="@android:color/background_dark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -68,97 +98,27 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/txbTarjeta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="Numero de tarjeta"
-            android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            app:cardCornerRadius="3dp"
+            app:cardElevation="2dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnPagar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="#A184A5"
+                android:elevation="2dp"
+                android:text="Proceder a pagar"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/txbAnio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="YY"
-            android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/txbMes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="MM"
-            android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="15dp"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/txbCVV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:hint="CVV"
-            android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:visibility="invisible" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnPagar"
-            android:layout_width="309dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:layout_weight="1"
-            android:background="#A184A5"
-            android:elevation="2dp"
-            android:text="Pagar"
-            android:textSize="16sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </LinearLayout>

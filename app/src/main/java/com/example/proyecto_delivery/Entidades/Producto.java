@@ -1,14 +1,14 @@
 package com.example.proyecto_delivery.Entidades;
 
 public class Producto {
-    private int idProducto;
+    private int idProducto=0;
     private String Producto;
     private Double Precio;
     private String Imagen;
     private String Descripcion;
 
     public int getIdProducto() {
-        return idProducto;
+        return this.idProducto;
     }
 
     public void setIdProducto(int idProducto) {

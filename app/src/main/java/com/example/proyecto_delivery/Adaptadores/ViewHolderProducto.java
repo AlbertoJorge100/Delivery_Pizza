@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyecto_delivery.R;
 
 public class ViewHolderProducto extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public TextView lblIdProducto;
     public TextView lblProducto;
     private TextView lblDescripcion;
     //private Button btnCompartir;
@@ -17,12 +18,13 @@ public class ViewHolderProducto extends RecyclerView.ViewHolder implements View.
     private ImageView Imagen;
     public ViewHolderProducto(@NonNull View itemView) {
         super(itemView);
+        this.lblIdProducto=itemView.findViewById(R.id.P2_IdProducto);
         this.lblProducto=itemView.findViewById(R.id.lblProducto);
         this.lblPrecio=itemView.findViewById(R.id.lblPrecio);
         this.lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
         this.Imagen=itemView.findViewById(R.id.imgProducto);
     }
-
+    public TextView getLblIdProducto(){return this.lblIdProducto;}
     public TextView getLblProducto() {
         return lblProducto;
     }

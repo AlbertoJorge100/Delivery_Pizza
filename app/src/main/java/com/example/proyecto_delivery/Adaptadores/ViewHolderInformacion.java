@@ -10,17 +10,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyecto_delivery.R;
 
 public class ViewHolderInformacion extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public TextView lblIdMenu;
     public TextView lblTitulo;
-    private TextView lblSubtitulo;
-    private TextView lblDescripcion;
-    //private Button btnCompartir;
     private ImageView Imagen;
+
     public ViewHolderInformacion(@NonNull View itemView) {
         super(itemView);
+        this.lblIdMenu=itemView.findViewById(R.id.lblIdItem);
         this.lblTitulo=itemView.findViewById(R.id.lblTitulo);
-        this.lblSubtitulo=itemView.findViewById(R.id.lblSubtitulo);
-        this.lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
-        //this.btnCompartir=itemView.findViewById(R.id.btnCompartir);
         this.Imagen=itemView.findViewById(R.id.imgProducto);
     }
 
@@ -28,18 +25,9 @@ public class ViewHolderInformacion extends RecyclerView.ViewHolder implements Vi
         return lblTitulo;
     }
 
-    public TextView getLblSubtitulo() {
-        return lblSubtitulo;
-    }
-
-    public TextView getLblDescripcion() {
-        return lblDescripcion;
-    }
-
-    //public Button getBtnCompartir(){return this.btnCompartir;}
-
     public ImageView getImagen(){return this.Imagen;}
 
+    public TextView getLblIdMenu(){return this.lblIdMenu;}
     @Override
     public void onClick(View view) {
         //Toast.makeText(ViewHolderInformacion.this,"hola",Toast.LENGTH_SHORT).show();

@@ -39,7 +39,8 @@ public class AdaptadorFactura extends RecyclerView.Adapter<ViewHolderFactura> im
         holder.getLblCantidad().setText(Integer.toString(listaInformacion.get(position).getCantidad()));
         holder.getLblTotal().setText("$ "+Double.toString(listaInformacion.get(position).getTotal()));
         //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
-        Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagenFactura());
+        Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round)
+                .fit().centerInside().into((ImageView) holder.getImagenFactura());
     }
 
     @Override

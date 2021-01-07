@@ -34,12 +34,8 @@ public class AdaptadorInformacion extends RecyclerView.Adapter<ViewHolderInforma
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderInformacion holder, int position) {
-        //aqui se une la informacion del view holder con la data
-
+        holder.getLblIdMenu().setText(Integer.toString(listaInformacion.get(position).getIdMenu()));
         holder.getLblTitulo().setText(listaInformacion.get(position).getTitulo());
-        holder.getLblSubtitulo().setText(listaInformacion.get(position).getSubTitulo());
-        holder.getLblDescripcion().setText(listaInformacion.get(position).getDescripcion());
-        //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
         Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
     }
 

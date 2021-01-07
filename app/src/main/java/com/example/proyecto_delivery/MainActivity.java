@@ -25,9 +25,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView imgContenedor=findViewById(R.id.imgContenedor);
         String imagen="https://image.freepik.com/vector-gratis/pizza-delivery-service-flat-vector-illustration_82574-2658.jpg";
         Picasso.get().load(imagen).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) imgContenedor);
-        EnviarData();
 
-        //EnviarData();
+
+        EnviarData();
 
     }
     private void EnviarData(){
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 while (progreso < 100){
                     //simular proceso
                     try{
-                        Thread.sleep(50);
+                        Thread.sleep(5);
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();

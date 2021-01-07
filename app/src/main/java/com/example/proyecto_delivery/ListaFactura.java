@@ -3,12 +3,10 @@ package com.example.proyecto_delivery;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyecto_delivery.Adaptadores.AdaptadorFactura;
 import com.example.proyecto_delivery.Clases.classFactura;
 import com.example.proyecto_delivery.Entidades.Factura;
+import com.example.proyecto_delivery.Utilerias.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +62,12 @@ public class ListaFactura extends AppCompatActivity {
         });
 
     }
-
+    /*
     private void CargarFacturas(){
         try{
             int i=0;
             classFactura factura=new classFactura(this);
-            factura.setIdCliente(ListaInformacion.IdCliente);
+            factura.setIdCliente(IdCliente);
             this.listaFactura = factura.GetAllFacturas();
             for(classFactura fct : this.listaFactura ){
                 Factura fct2=new Factura();
@@ -83,7 +82,7 @@ public class ListaFactura extends AppCompatActivity {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu, menu);
@@ -94,7 +93,9 @@ public class ListaFactura extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch(item.getItemId()){
             case R.id.carrito:
-                if(ListaInformacion.ListaCarrito.size()>0){
+                Logger logger=Logger.getInstance();
+
+                if(logger.getListaCarrito().size()>0){
                     Intent intn=new Intent(ListaFactura.this,ListaCarrito.class);
                     startActivity(intn);
                 }else{

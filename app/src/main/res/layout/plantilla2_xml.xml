@@ -47,16 +47,17 @@
                     android:layout_height="wrap_content"
                     android:text="Producto"
                     android:textAlignment="textStart"
-                    android:textSize="18sp"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/lblDescripcion"
                     android:layout_width="match_parent"
-                    android:layout_height="58dp"
+                    android:layout_height="54dp"
                     android:text="Descripcion de el producto"
                     android:textAlignment="viewStart"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -64,8 +65,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Precio"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/P2_IdProducto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

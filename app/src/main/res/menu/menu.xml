@@ -6,15 +6,17 @@
     <item
         android:id="@+id/carrito"
         android:icon="@drawable/icon_carrito"
-        app:showAsAction="always"
-        android:title="Carrito"
-        />
+        app:showAsAction="ifRoom"
+        android:title="Carrito" />
+
         <item
         android:id="@+id/persona"
         android:icon="@drawable/persona"
         app:showAsAction="always"
         android:title="persona"
         />
+
+
 
 
 

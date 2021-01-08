@@ -95,13 +95,14 @@ public class ListaCarrito extends AppCompatActivity{
 
         //Seteo de totales
         lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-        lblTotal.setText("$ "+Double.toString(CalcularTotales.TotalPagar()));
+        lblTotal.setText("$ "+CalcularTotales.TotalPagar());
 
         Button btnPagar=findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intn=new Intent(ListaCarrito.this,PagoActivity.class);
+                startActivity(intn);
                 /*
                 if(ValidarCampos(new TextView[]{txbTarjeta,txbAnio,txbMes,txbCVV})){
                     int idf=ObtenerIdFactura();
@@ -154,7 +155,7 @@ public class ListaCarrito extends AppCompatActivity{
 
                         //Recalculando los totales con la clase "CalcularTotales"
                         ListaCarrito.this.lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-                        ListaCarrito.this.lblTotal.setText("$ "+Double.toString(CalcularTotales.TotalPagar()));
+                        ListaCarrito.this.lblTotal.setText("$ "+CalcularTotales.TotalPagar());
                         ListaCarrito.this.lblItems.setText(Integer.toString(ListaCarrito.this.logger.getListaCarrito().size()));
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -196,7 +197,7 @@ public class ListaCarrito extends AppCompatActivity{
     }
 
     /**
-     * Obteniendo Id factura de SQLite
+     * Obteniendo Id factura de SQLite Pendiente de modificar
      * @return int
      */
     private int ObtenerIdFactura(){
@@ -207,7 +208,7 @@ public class ListaCarrito extends AppCompatActivity{
         classFactura factura=new classFactura(this);
         Logger logger=Logger.getInstance();
         factura.setIdCliente(logger.getIdUsuario());
-        factura.setTotal(CalcularTotales.TotalPagar());
+        factura.setTotal(Double.parseDouble(CalcularTotales.TotalPagar()));
         factura.setCantidadProductos(lista.size());
         factura.setFecha(fecha);
         //El metodo Insert de classFactura, retornara el id de la factura "int"

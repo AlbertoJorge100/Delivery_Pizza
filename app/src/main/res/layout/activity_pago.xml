@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,117 +8,152 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context=".PagoActivity">
-    <include android:id="@+id/toolbar"
-        layout="@layout/toolbar"
-        />
+
+    <Button
+        android:id="@+id/idMunicipio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:backgroundTint="@color/design_default_color_surface"
+        android:text="Elige un municipio" />
+
     <EditText
         android:id="@+id/editTextTextPersonName"
         android:layout_width="match_parent"
-        android:layout_height="170dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
+        android:layout_height="91dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="40dp"
         android:ems="10"
-        android:hint="Direccion"
-        android:inputType="textPersonName"
+        android:hint="Direccion de envío"
+        android:inputType="textMultiLine"
         android:textAlignment="viewStart" />
+
+    <EditText
+        android:id="@+id/txbPropietario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:ems="10"
+        android:hint="Propietario de tarjeta"
+        android:inputType="textPersonName" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/txbTarjeta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="Numero de tarjeta"
             android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/txbAnio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="YY"
             android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/txbMes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="MM"
             android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/txbCVV"
-            android:layout_width="wrap_content"
+            android:layout_width="58dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
             android:layout_weight="1"
             android:ems="10"
             android:hint="CVV"
             android:inputType="number"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textSize="18sp" />
 
-        <EditText
-            android:id="@+id/editTextTextPersonName5"
+        <TextView
+            android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
+            android:text="TextView"
             android:visibility="invisible" />
+
     </LinearLayout>
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="3dp">
 
         <Button
             android:id="@+id/btnPagar"
-            android:layout_width="309dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
             android:layout_weight="1"
             android:background="#A184A5"
             android:elevation="2dp"
             android:text="Pagar"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+    <com.codesgood.views.JustifiedTextView
+        android:id="@+id/textView15"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:layout_weight="1"
+        android:text="Posterior al pago de tu orden, podras monitorear el estado de esta, a travez de la opcion: Historial de compras; Donde podras ver el estado que sera actualizado en tiempo real por uno de nuestros empleados. Si tienes dudas o necesitas asistencia con tu orden llama al 2453-0091"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/imgPago"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="40dp"
+        android:scaleType="fitXY"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </LinearLayout>

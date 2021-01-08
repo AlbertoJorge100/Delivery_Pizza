@@ -42,4 +42,10 @@
     <string name="hntTjtVencimiento">F. Vencimiento: YYMM</string>
     <string name="hntTjtCvv">CVV</string>
     <string name="btnTjtGuardar">Guardar</string>
+
+    <string-array name="municipios">
+        <item>Nahuizalco</item>
+        <item>Juayua</item>
+        <item>Salcoatitan</item>
+    </string-array>
 </resources>

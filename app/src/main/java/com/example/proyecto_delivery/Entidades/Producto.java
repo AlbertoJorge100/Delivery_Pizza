@@ -46,4 +46,5 @@ public class Producto {
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
     }
+
 }

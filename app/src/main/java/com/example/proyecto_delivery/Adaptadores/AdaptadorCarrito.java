@@ -12,6 +12,7 @@ import com.example.proyecto_delivery.Entidades.Carrito;
 import com.example.proyecto_delivery.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class AdaptadorCarrito  extends RecyclerView.Adapter<ViewHolderCarrito> implements View.OnClickListener, View.OnLongClickListener{
@@ -63,11 +64,19 @@ public class AdaptadorCarrito  extends RecyclerView.Adapter<ViewHolderCarrito> i
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderCarrito holder, int position) {
+        //Convirtiendo el precio a string para poder mostrar dos decimales
+        double v_precio=listaCarrito.get(position).getPrecioUnitario();
+        double v_total=listaCarrito.get(position).getTotal();
+        DecimalFormat df = new DecimalFormat("0.00");
+        String precio = df.format(v_precio).replace(",", ".");
+        String total=df.format(v_total).replace(",", ".");
+
         holder.getLblIdProducto().setText(Integer.toString(listaCarrito.get(position).getIdProducto()));
-        holder.getLblProducto().setText(ValidarTitulo(listaCarrito.get(position).getProducto()));
-        holder.getLblPrecio().setText("$ "+Double.toString(listaCarrito.get(position).getPrecioUnitario()));
-        holder.getLblCantidad().setText(Integer.toString(listaCarrito.get(position).getCantidad()));
-        holder.getLblTotal().setText("$ "+Double.toString(listaCarrito.get(position).getTotal()));
+        //holder.getLblProducto().setText(ValidarTitulo(listaCarrito.get(position).getProducto()));
+        holder.getLblProducto().setText(listaCarrito.get(position).getProducto());
+        holder.getLblPrecio().setText("$ "+precio);
+        holder.getLblCantidad().setText("x"+Integer.toString(listaCarrito.get(position).getCantidad()));
+        holder.getLblTotal().setText("$ "+total);
         holder.getLblDescripcion().setText(listaCarrito.get(position).getDescripcion());
         Picasso.get().load(listaCarrito.get(position).getImagen()).error(R.mipmap.ic_launcher_round)
                 .fit().centerInside().into((ImageView)holder.getImagenProducto());

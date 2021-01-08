@@ -75,6 +75,7 @@ public class ListaProducto extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(titulo);
 
+        //DetalleActivity para ver el detalle del producto especifico
         this.adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,6 +92,8 @@ public class ListaProducto extends AppCompatActivity {
                 startActivity(intn);
             }
         });
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -204,11 +207,20 @@ public class ListaProducto extends AppCompatActivity {
                 " 0 Piezas de pollo tradicional, 5 acompañamientos, 5 panes, pastel de tres leches familiar");
         info1.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Web58141.png");
 
+        String descripcion="Combo de 10 piezas de pollo combinadas, 5 acompañamientos, 5 ensaladas de repollo\n\n" +
+                                "Ingredientes: \n\n" +
+                                "- 12 Panes \n"+
+                                "- 1  Ensalada Familiar \n"+
+                                "- 3  Flanes personales \n"+
+                                "- 10 Piezas de pollo \n"+
+                                "- 1  Soda grande";
+
+
         Producto info2 = new Producto();
         info2.setIdProducto(2);
         info2.setProducto("Combo Luces 10 Piezas");
         info2.setPrecio((double) 21);
-        info2.setDescripcion("Combo de 10 piezas de pollo combinadas, 5 acompañamientos, 5 ensaladas de repollo");
+        info2.setDescripcion(descripcion);
         info2.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/58178WAP.png");
 
         Producto info3 = new Producto();

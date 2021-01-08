@@ -19,6 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 
 /**
  * Activity "DetalleActivity" donde mostraremos los detalles de un producto
@@ -143,7 +144,7 @@ public class DetalleActivity extends AppCompatActivity {
                             DetalleActivity.this.logger.setOpcion(Logger._Opcion.AGREGAR);
                             //Modificando los totales de la activity ListaCarrito a travez de sus TextViews estaticos
                             ListaCarrito.lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-                            ListaCarrito.lblTotal.setText("$ "+Double.toString(CalcularTotales.TotalPagar()));
+                            ListaCarrito.lblTotal.setText("$ "+CalcularTotales.TotalPagar());
                             Toast.makeText(DetalleActivity.this,"Producto modificado", Toast.LENGTH_SHORT).show();
                             //Modificando el adaptador para actualizar los cambios realizados
                             ListaCarrito.adaptador.notifyDataSetChanged();
@@ -166,7 +167,7 @@ public class DetalleActivity extends AppCompatActivity {
         lbldescripcion.setText(Descripcion);
         /*lblPrecio.setText("$ "+Double.toString(this.Precio));
         lblTotal.setText("$ "+Double.toString(this.Precio));*/
-        Picasso.get().load(Imagen).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) imgProducto);
+            Picasso.get().load(Imagen).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) imgProducto);
     }
 
     /**
@@ -200,7 +201,10 @@ public class DetalleActivity extends AppCompatActivity {
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         Total=bd.doubleValue();
         //Seteo de totales
-        DetalleActivity.this.lblPrecio.setText("$ "+Double.toString(this.Precio));
-        DetalleActivity.this.lblTotal.setText("$ "+Double.toString(this.Total));
+
+
+        DecimalFormat df = new DecimalFormat("0.00");//Se usa para mostrar dos decimales incluyendo el 0 al final
+        DetalleActivity.this.lblPrecio.setText("$ "+df.format(Precio).replace(",", "."));
+        DetalleActivity.this.lblTotal.setText("$ "+df.format(Total).replace(",", "."));
     }
 }

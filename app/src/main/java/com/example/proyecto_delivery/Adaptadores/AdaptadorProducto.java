@@ -12,6 +12,7 @@ import com.example.proyecto_delivery.Entidades.Producto;
 import com.example.proyecto_delivery.R;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> implements View.OnClickListener{
@@ -34,11 +35,11 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
     private String ValidarLongitud(int parametro,String titulo){
         switch(parametro){
             case 1:
-                if(titulo.length()>45)
-                    return titulo.substring(0,45);
+                if(titulo.length()>65)
+                    return titulo.substring(0,65);
             case 2:
-                if(titulo.length()>80)
-                    return titulo.substring(0,70);
+                if(titulo.length()>100)
+                    return titulo.substring(0,100);
             default:
                 return titulo;
         }
@@ -46,13 +47,18 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProducto holder, int position) {
+        //Convirtiendo el precio a string para poder mostrar dos decimales
+        double valor=listaInformacion.get(position).getPrecio();
+        DecimalFormat df = new DecimalFormat("0.00");
+        String precio = df.format(valor).replace(",", ".");
+
         holder.getLblIdProducto().setText(Integer.toString(listaInformacion.get(position).getIdProducto()));
         holder.getLblProducto().setText(ValidarLongitud(1,listaInformacion.get(position).getProducto()));
-        holder.getLblPrecio().setText("$ "+Double.toString(listaInformacion.get(position).getPrecio()));
+        holder.getLblPrecio().setText("$ "+precio);
+        //Esta es la descripcion previa al producto
         holder.getLblDescripcion().setText(ValidarLongitud(2,listaInformacion.get(position).getDescripcion()));
         //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
         Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
-
     }
 
     @Override

@@ -35,8 +35,8 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
     private String ValidarLongitud(int parametro,String titulo){
         switch(parametro){
             case 1:
-                if(titulo.length()>65)
-                    return titulo.substring(0,65);
+                if(titulo.length()>50)
+                    return titulo.substring(0,50);
             case 2:
                 if(titulo.length()>100)
                     return titulo.substring(0,100);
@@ -51,7 +51,6 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
         double valor=listaInformacion.get(position).getPrecio();
         DecimalFormat df = new DecimalFormat("0.00");
         String precio = df.format(valor).replace(",", ".");
-
         holder.getLblIdProducto().setText(Integer.toString(listaInformacion.get(position).getIdProducto()));
         holder.getLblProducto().setText(ValidarLongitud(1,listaInformacion.get(position).getProducto()));
         holder.getLblPrecio().setText("$ "+precio);

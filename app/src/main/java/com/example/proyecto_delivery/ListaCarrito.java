@@ -19,7 +19,6 @@ import com.example.proyecto_delivery.Adaptadores.AdaptadorCarrito;
 import com.example.proyecto_delivery.Clases.classFactura;
 import com.example.proyecto_delivery.Clases.classProducto;
 import com.example.proyecto_delivery.Entidades.Carrito;
-import com.example.proyecto_delivery.Interfaces.CalcularTotales;
 import com.example.proyecto_delivery.Utilerias.Logger;
 
 import java.text.DateFormat;
@@ -48,6 +47,7 @@ public class ListaCarrito extends AppCompatActivity{
     private RecyclerView ListaCarrito;
 
     //Ids para poder enviar datos hacia la activity Detalle
+    public static final String ID_CANT_LIMITE="canT";
     public static final String ID_INDICE="Indice";
     public static final String ID_PRODUCTO="IdProducto";
     public static final String ID_OPCION="Opcion";
@@ -58,6 +58,8 @@ public class ListaCarrito extends AppCompatActivity{
     public static final String ID_TOTAL="Total";
     public static final String ID_CANTIDAD="cANT";
 
+    //Id para enviar monto a pagar a PagoActivity
+    public static final String ID_PAGO="pag";
     /*TextViews para setear los totales calculados, los que son estaticos
     * son para poder acceder desde la clase "DetalleActivity" y modificarlos
     * desde ahi */
@@ -91,17 +93,18 @@ public class ListaCarrito extends AppCompatActivity{
         lblTotal=findViewById(R.id.Carrito_lblTotal);
 
         //Cantidad de items
-        lblItems.setText(Integer.toString(this.lista.size()));
+        lblItems.setText(Integer.toString(this.logger.getItems()));
 
         //Seteo de totales
-        lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-        lblTotal.setText("$ "+CalcularTotales.TotalPagar());
+        lblProductos.setText(Integer.toString(this.logger.getCantidadProductos()));
+        lblTotal.setText("$ "+this.logger.getTotalPagar());
 
         Button btnPagar=findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intn=new Intent(ListaCarrito.this,PagoActivity.class);
+                intn.putExtra(ListaCarrito.this.ID_PAGO,lblTotal.getText().toString());
                 startActivity(intn);
                 /*
                 if(ValidarCampos(new TextView[]{txbTarjeta,txbAnio,txbMes,txbCVV})){
@@ -154,9 +157,9 @@ public class ListaCarrito extends AppCompatActivity{
                         ListaCarrito.this.adaptador.notifyDataSetChanged();
 
                         //Recalculando los totales con la clase "CalcularTotales"
-                        ListaCarrito.this.lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-                        ListaCarrito.this.lblTotal.setText("$ "+CalcularTotales.TotalPagar());
-                        ListaCarrito.this.lblItems.setText(Integer.toString(ListaCarrito.this.logger.getListaCarrito().size()));
+                        ListaCarrito.this.lblProductos.setText(Integer.toString(ListaCarrito.this.logger.getCantidadProductos()));
+                        ListaCarrito.this.lblTotal.setText("$ "+ListaCarrito.this.logger.getTotalPagar());//Esta funcion retorna un String
+                        ListaCarrito.this.lblItems.setText(Integer.toString(ListaCarrito.this.logger.getItems()));
                     }
                 }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
@@ -179,17 +182,19 @@ public class ListaCarrito extends AppCompatActivity{
                         Toast.LENGTH_SHORT).show();*/
                 //Modificando la opcion de acceso a "DetalleActivity" a travez de Singleton
                 ListaCarrito.this.logger.setOpcion(Logger._Opcion.MODIFICAR);
-
                 Intent intn=new Intent(ListaCarrito.this, DetalleActivity.class);
                 //Envio de datos a travez de los IDS
-                intn.putExtra(ID_INDICE,ListaCarrito.getChildAdapterPosition(view));
-                intn.putExtra(ID_PRODUCTO,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getIdProducto());
-                intn.putExtra(ID_TITULO,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getProducto());
-                intn.putExtra(ID_PRECIO,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getPrecioUnitario());
-                intn.putExtra(ID_TOTAL,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getTotal());
-                intn.putExtra(ID_CANTIDAD,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getCantidad());
-                intn.putExtra(ID_IMAGEN,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getImagen());
-                intn.putExtra(ID_DESCRIPCION,ListaCarrito.this.lista.get(ListaCarrito.getChildAdapterPosition(view)).getDescripcion());
+                int indice=ListaCarrito.getChildAdapterPosition(view);
+                Carrito carrito=lista.get(indice);
+                intn.putExtra(ID_INDICE,indice);
+                intn.putExtra(ID_PRODUCTO,carrito.getIdProducto());
+                intn.putExtra(ID_TITULO,carrito.getProducto());
+                intn.putExtra(ID_PRECIO,carrito.getPrecioUnitario());
+                intn.putExtra(ID_TOTAL,carrito.getTotal());
+                intn.putExtra(ID_CANTIDAD,carrito.getCantidad());
+                intn.putExtra(ID_IMAGEN,carrito.getImagen());
+                intn.putExtra(ID_CANT_LIMITE,carrito.getCant_Limite());
+                intn.putExtra(ID_DESCRIPCION,carrito.getDescripcion());
                 startActivity(intn);
             }
         });
@@ -208,7 +213,7 @@ public class ListaCarrito extends AppCompatActivity{
         classFactura factura=new classFactura(this);
         Logger logger=Logger.getInstance();
         factura.setIdCliente(logger.getIdUsuario());
-        factura.setTotal(Double.parseDouble(CalcularTotales.TotalPagar()));
+        factura.setTotal(Double.parseDouble(this.logger.getTotalPagar()));
         factura.setCantidadProductos(lista.size());
         factura.setFecha(fecha);
         //El metodo Insert de classFactura, retornara el id de la factura "int"

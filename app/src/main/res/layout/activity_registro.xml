@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.036" />
 
     <EditText
-        android:id="@+id/txbTelefono"
+        android:id="@+id/PagotxbTelefono"
         android:layout_width="280dp"
         android:layout_height="58dp"
         android:ems="10"
@@ -103,7 +103,7 @@
         app:layout_constraintVertical_bias="0.139" />
 
     <EditText
-        android:id="@+id/txbDireccion"
+        android:id="@+id/PagotxbDireccion"
         android:layout_width="283dp"
         android:layout_height="58dp"
         android:ems="10"

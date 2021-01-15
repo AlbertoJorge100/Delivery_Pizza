@@ -2,6 +2,7 @@ package com.example.proyecto_delivery.Entidades;
 
 public class Producto {
     private int idProducto=0;
+    private int Cantidad;
     private String Producto;
     private Double Precio;
     private String Imagen;
@@ -46,5 +47,9 @@ public class Producto {
     public void setDescripcion(String descripcion) {
         Descripcion = descripcion;
     }
+
+    public void setCantidad(int cantidad){this.Cantidad=cantidad;}
+
+    public int getCantidad(){return this.Cantidad;}
 
 }

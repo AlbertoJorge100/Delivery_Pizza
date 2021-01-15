@@ -13,13 +13,13 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.proyecto_delivery.Entidades.Carrito;
-import com.example.proyecto_delivery.Interfaces.CalcularTotales;
 import com.example.proyecto_delivery.Utilerias.Logger;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.util.List;
 
 /**
  * Activity "DetalleActivity" donde mostraremos los detalles de un producto
@@ -35,6 +35,7 @@ public class DetalleActivity extends AppCompatActivity {
      private Double Precio=0.0;
      private Double Total=0.0;
      private int Cantidad=1;
+     private int Cant_Limite=0;
      private String Titulo;
      private String Imagen;
      private String Descripcion;
@@ -75,6 +76,7 @@ public class DetalleActivity extends AppCompatActivity {
             this.Descripcion=getIntent().getStringExtra(ListaCarrito.ID_DESCRIPCION);
             this.Titulo=getIntent().getStringExtra(ListaCarrito.ID_TITULO);
             this.Cantidad=getIntent().getIntExtra(ListaCarrito.ID_CANTIDAD,0);
+            this.Cant_Limite=getIntent().getIntExtra(ListaCarrito.ID_CANT_LIMITE,0);
             this.Mensaje="Desea modificar el producto en el carrito de compras?";
         }else{
             //Agregar: traemos los datos desde la listaProducto
@@ -84,6 +86,7 @@ public class DetalleActivity extends AppCompatActivity {
             this.Precio=getIntent().getDoubleExtra(ListaProducto.ID_PRECIO,0);
             this.Descripcion=getIntent().getStringExtra(ListaProducto.ID_DESCRIPCION);
             this.Titulo=getIntent().getStringExtra(ListaProducto.ID_TITULO);
+            this.Cant_Limite=getIntent().getIntExtra(ListaProducto.ID_CANTIDAD,0);
         }
         //Calculamos los totales -1: No accionar "Cantidad"
         CalcularTotales(-1);
@@ -102,7 +105,11 @@ public class DetalleActivity extends AppCompatActivity {
         lblMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CalcularTotales(1);
+                if(Cantidad<Cant_Limite){
+                    CalcularTotales(1);
+                }else{
+                    Toast.makeText(DetalleActivity.this,"Limite de productos alcanzados para este item !",Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -113,6 +120,7 @@ public class DetalleActivity extends AppCompatActivity {
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Confirmacion
                 AlertDialog.Builder builder=new AlertDialog.Builder(DetalleActivity.this);
                 builder.setTitle("Confirmacion");
@@ -120,43 +128,64 @@ public class DetalleActivity extends AppCompatActivity {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Boolean resultado=true;
                         //Validar Singleton
-                        if(DetalleActivity.this.logger.getOpcion()==Logger._Opcion.AGREGAR){
+                        if (DetalleActivity.this.logger.getOpcion() == Logger._Opcion.AGREGAR) {
                             //Producto que sera agregado al carrito de compras
-                            Carrito aux=new Carrito();
-                            aux.setIdProducto(DetalleActivity.this.IdProducto);
-                            aux.setProducto(DetalleActivity.this.Titulo);
-                            aux.setCantidad(DetalleActivity.this.Cantidad);
-                            aux.setDescripcion(DetalleActivity.this.Descripcion);
-                            aux.setPrecioUnitario(DetalleActivity.this.Precio);
-                            aux.setImagen(DetalleActivity.this.Imagen);
-                            aux.setTotal(DetalleActivity.this.Total);
-                            //Seteo a singleton
-                            logger.setItemCarrito(aux);
-                            Toast.makeText(DetalleActivity.this,"Producto agregado al carrito de compras", Toast.LENGTH_SHORT).show();
-                        }else{
+                            int indiceModificar = ValidarSeleccionCarrito();
+                            if (indiceModificar == -1) {//No existe una coincidencia en el carrito de compras
+                                Carrito aux = new Carrito();
+                                aux.setIdProducto(DetalleActivity.this.IdProducto);
+                                aux.setProducto(DetalleActivity.this.Titulo);
+                                aux.setCantidad(DetalleActivity.this.Cantidad);
+                                //Cantidad limite, para una posible modificacion
+                                aux.setCant_Limite(DetalleActivity.this.Cant_Limite);
+                                aux.setDescripcion(DetalleActivity.this.Descripcion);
+                                aux.setPrecioUnitario(DetalleActivity.this.Precio);
+                                aux.setImagen(DetalleActivity.this.Imagen);
+                                aux.setTotal(DetalleActivity.this.Total);
+                                //Seteo a singleton
+                                DetalleActivity.this.logger.setItemCarrito(aux);
+                                Toast.makeText(DetalleActivity.this, "Producto agregado al carrito de compras", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Carrito temp=DetalleActivity.this.logger.getListaCarrito().get(indiceModificar);
+                                int cant=temp.getCantidad();
+                                if((DetalleActivity.this.Cantidad+cant)<=DetalleActivity.this.Cant_Limite){
+                                    DetalleActivity.this.logger.getListaCarrito().get(indiceModificar).setTotal(temp.getTotal()+DetalleActivity.this.Total);
+                                    DetalleActivity.this.logger.getListaCarrito().get(indiceModificar).setCantidad(temp.getCantidad()+DetalleActivity.this.Cantidad);
+                                    Toast.makeText(DetalleActivity.this, "Cantidad modificada, en item previamente agregado", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    resultado=false;
+                                    Toast.makeText(DetalleActivity.this, "Cantidad no aceptada !", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        } else {
+                            //Modificar
                             //Acceder al indice de la listaCarrito para poder, modificarlo posteriormente
-                            int indice=getIntent().getIntExtra(ListaCarrito.ID_INDICE,0);
+                            int indice = getIntent().getIntExtra(ListaCarrito.ID_INDICE, 0);
                             //Modificando las cantidades en singleton
                             logger.getListaCarrito().get(indice).setCantidad(DetalleActivity.this.Cantidad);
                             logger.getListaCarrito().get(indice).setTotal(DetalleActivity.this.Total);
                             //Modificando nuevamente la opcion de acceso a esta activity para posteriores accesos
                             DetalleActivity.this.logger.setOpcion(Logger._Opcion.AGREGAR);
                             //Modificando los totales de la activity ListaCarrito a travez de sus TextViews estaticos
-                            ListaCarrito.lblProductos.setText(Integer.toString(CalcularTotales.TotalProductos()));
-                            ListaCarrito.lblTotal.setText("$ "+CalcularTotales.TotalPagar());
-                            Toast.makeText(DetalleActivity.this,"Producto modificado", Toast.LENGTH_SHORT).show();
+                            ListaCarrito.lblProductos.setText(Integer.toString(DetalleActivity.this.logger.getCantidadProductos()));
+                            ListaCarrito.lblTotal.setText("$ " + DetalleActivity.this.logger.getTotalPagar());
+                            Toast.makeText(DetalleActivity.this, "Producto modificado", Toast.LENGTH_SHORT).show();
                             //Modificando el adaptador para actualizar los cambios realizados
                             ListaCarrito.adaptador.notifyDataSetChanged();
                         }
-                        finish();
-                    }
-                }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            //Presiono cancelar
+                        if(resultado){
+                            finish();
                         }
-                    });
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Presiono cancelar
+                    }
+                });
                 AlertDialog dialog=builder.create();
                 dialog.show();
                 //Toast.makeText(DetalleActivity.this,pr.getProducto(),Toast.LENGTH_SHORT).show();
@@ -207,4 +236,17 @@ public class DetalleActivity extends AppCompatActivity {
         DetalleActivity.this.lblPrecio.setText("$ "+df.format(Precio).replace(",", "."));
         DetalleActivity.this.lblTotal.setText("$ "+df.format(Total).replace(",", "."));
     }
+
+    private int ValidarSeleccionCarrito(){
+        List<Carrito> lista_temp=this.logger.getListaCarrito();
+        for(int i=0;i<lista_temp.size();i++){
+            Carrito aux=lista_temp.get(i);
+            if(aux.getIdProducto()==this.IdProducto){
+                return i;//Retornando el indice de la lista
+            }
+        }
+        return -1;
+    }
+
+
 }

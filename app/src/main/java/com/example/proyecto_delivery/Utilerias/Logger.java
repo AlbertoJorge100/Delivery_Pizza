@@ -2,6 +2,7 @@ package com.example.proyecto_delivery.Utilerias;
 
 import com.example.proyecto_delivery.Entidades.Carrito;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,25 @@ public class Logger {
            Log=new Logger();
         }
         return Log;
+    }
+    public String getTotalPagar(){
+        double resultado=0;
+        for(Carrito aux:this.ListaCarrito){
+            resultado+=aux.getTotal();
+        }
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        return df.format(resultado).replace(",", ".");
+    }
+    public int getCantidadProductos(){
+        int i=0;
+        for(Carrito aux:this.ListaCarrito){
+            i+=aux.getCantidad();
+        }
+        return i;
+    }
+    public int getItems(){
+        return this.ListaCarrito.size();
     }
     public void setUsuario(String usuario){this.Usuario=usuario;}
     public String getUsuario(){return this.Usuario;}

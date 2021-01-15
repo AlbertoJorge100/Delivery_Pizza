@@ -23,7 +23,8 @@ public class FragmentDialog extends DialogFragment {
         builder.setItems(municipios, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                PagoActivity.resultado=municipios[i];
+                PagoActivity.ResultadoMunicipio=municipios[i];
+                PagoActivity.ValidarMunicipio=true;
                 PagoActivity.btnMunicipio.setText(municipios[i]);
             }
         });

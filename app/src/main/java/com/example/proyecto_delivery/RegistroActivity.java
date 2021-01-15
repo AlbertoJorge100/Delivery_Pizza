@@ -31,9 +31,9 @@ public class RegistroActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.txbNombre=findViewById(R.id.txbNombre);
-        this.txbTelefono=findViewById(R.id.txbTelefono);
+        this.txbTelefono=findViewById(R.id.PagotxbTelefono);
         this.txbCorreo=findViewById(R.id.txbCorreo);
-        this.txbDireccion=findViewById(R.id.txbDireccion);
+        this.txbDireccion=findViewById(R.id.PagotxbDireccion);
         this.txbUsuario=findViewById(R.id.txbUsuario);
         this.txbPassword=findViewById(R.id.txbPassword);
         Button btnRegistro=findViewById(R.id.btnRegistro);

@@ -6,8 +6,13 @@ public class Carrito {
     private double PrecioUnitario;
     private double Total;
     private int Cantidad;
+    private int Cant_Limite;
     private String Imagen;
     private String Descripcion;
+
+    public void setCant_Limite(int cant_Limite){this.Cant_Limite=cant_Limite;}
+
+    public int getCant_Limite(){return this.Cant_Limite;}
 
     public int getIdProducto() {
         return idProducto;

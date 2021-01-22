@@ -48,16 +48,20 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProducto holder, int position) {
         //Convirtiendo el precio a string para poder mostrar dos decimales
-        double valor=listaInformacion.get(position).getPrecio();
+        Producto producto=listaInformacion.get(position);
         DecimalFormat df = new DecimalFormat("0.00");
-        String precio = df.format(valor).replace(",", ".");
-        holder.getLblIdProducto().setText(Integer.toString(listaInformacion.get(position).getIdProducto()));
-        holder.getLblProducto().setText(ValidarLongitud(1,listaInformacion.get(position).getProducto()));
+        String precio = df.format(producto.getPrecio()).replace(",", ".");
+
+        holder.getLblIdProducto().setText(Integer.toString(producto.getIdProducto()));
+        holder.getLblProducto().setText(ValidarLongitud(1,producto.getProducto()));
         holder.getLblPrecio().setText("$ "+precio);
         //Esta es la descripcion previa al producto
-        holder.getLblDescripcion().setText(ValidarLongitud(2,listaInformacion.get(position).getDescripcion()));
+        holder.getLblDescripcion().setText(ValidarLongitud(2,producto.getDescripcion()));
+
+        holder.getLblUnidades().setText(Integer.toString(producto.getCantidad())+" uds.");
+
         //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
-        Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
+        Picasso.get().load(producto.getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
     }
 
     @Override

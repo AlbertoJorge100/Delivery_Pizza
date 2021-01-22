@@ -1,119 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:rotationX="-17"
     tools:context=".RegistroActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/lblTitulo"
-        android:textColor="#A184A5"
-        android:textSize="35sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.036" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/PagotxbTelefono"
-        android:layout_width="280dp"
-        android:layout_height="58dp"
-        android:ems="10"
-        android:hint="@string/hntTelefono"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.258" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginRight="45dp"
+            android:text="@string/lblTitulo"
+            android:textAlignment="center"
+            android:textColor="#A184A5"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.036" />
 
-    <EditText
-        android:id="@+id/txbUsuario"
-        android:layout_width="283dp"
-        android:layout_height="56dp"
-        android:ems="10"
-        android:hint="@string/hntUsuario"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.602" />
+        <EditText
+            android:id="@+id/txbNombre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntNombre"
+            android:inputType="textMultiLine"
+            android:maxLength="50" />
 
-    <EditText
-        android:id="@+id/txbCorreo"
-        android:layout_width="281dp"
-        android:layout_height="61dp"
-        android:ems="10"
-        android:hint="@string/hntCorreo"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.374" />
+        <EditText
+            android:id="@+id/PagotxbTelefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntTelefono"
+            android:inputType="number"
+            android:maxLength="8" />
 
-    <Button
-        android:id="@+id/btnRegistro"
-        android:layout_width="114dp"
-        android:layout_height="41dp"
-        android:background="#A184A5"
-        android:text="@string/btnRegistrar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.846" />
+        <EditText
+            android:id="@+id/txbCorreo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntCorreo"
+            android:inputType="textMultiLine"
+            android:maxLength="45" />
 
-    <EditText
-        android:id="@+id/txbPassword"
-        android:layout_width="283dp"
-        android:layout_height="58dp"
-        android:ems="10"
-        android:hint="@string/hntContraseña"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.731" />
+        <EditText
+            android:id="@+id/txbUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntUsuario"
+            android:inputType="textPersonName"
+            android:maxLength="35" />
 
-    <EditText
-        android:id="@+id/txbNombre"
-        android:layout_width="281dp"
-        android:layout_height="64dp"
-        android:ems="10"
-        android:hint="@string/hntNombre"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.139" />
+        <EditText
+            android:id="@+id/txbPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntContraseña"
+            android:inputType="textPassword"
+            android:maxLength="35" />
 
-    <EditText
-        android:id="@+id/PagotxbDireccion"
-        android:layout_width="283dp"
-        android:layout_height="58dp"
-        android:ems="10"
-        android:hint="@string/hntDireccion"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487" />
+        <EditText
+            android:id="@+id/txbPassword2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="Repetir contraseña"
+            android:inputType="textPassword"
+            android:maxLength="35" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/PagotxbDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            android:ems="10"
+            android:hint="@string/hntDireccion"
+            android:inputType="textMultiLine"
+            android:maxLength="125"
+            android:textAlignment="viewStart" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp"
+            app:cardCornerRadius="3dp">
+
+            <Button
+                android:id="@+id/btnRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="41dp"
+                android:background="#A184A5"
+                android:text="@string/btnRegistrar" />
+        </androidx.cardview.widget.CardView>
+
+        <com.codesgood.views.JustifiedTextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="20dp"
+            android:text="Los datos que ingreses seran muy valiosos, a la hora de que realices una orden, La mala escritura de algun campo afectara el envio de tu orden, tus datos son muy valiosos para ti y para nosotros."
+            android:textSize="12sp" />
+    </LinearLayout>
+</ScrollView>

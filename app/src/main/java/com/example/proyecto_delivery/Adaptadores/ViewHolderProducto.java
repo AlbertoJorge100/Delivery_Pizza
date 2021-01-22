@@ -13,7 +13,7 @@ public class ViewHolderProducto extends RecyclerView.ViewHolder implements View.
     public TextView lblIdProducto;
     public TextView lblProducto;
     private TextView lblDescripcion;
-    //private Button btnCompartir;
+    private TextView lblUnidades;
     private TextView lblPrecio;
     private ImageView Imagen;
     public ViewHolderProducto(@NonNull View itemView) {
@@ -23,6 +23,7 @@ public class ViewHolderProducto extends RecyclerView.ViewHolder implements View.
         this.lblPrecio=itemView.findViewById(R.id.lblPrecio);
         this.lblDescripcion=itemView.findViewById(R.id.lblDescripcion);
         this.Imagen=itemView.findViewById(R.id.imgProducto);
+        this.lblUnidades=itemView.findViewById(R.id.lblUnidades);
     }
     public TextView getLblIdProducto(){return this.lblIdProducto;}
     public TextView getLblProducto() {
@@ -37,9 +38,9 @@ public class ViewHolderProducto extends RecyclerView.ViewHolder implements View.
         return lblDescripcion;
     }
 
-    //public Button getBtnCompartir(){return this.btnCompartir;}
-
     public ImageView getImagen(){return this.Imagen;}
+
+    public TextView getLblUnidades(){return this.lblUnidades;}
 
     @Override
     public void onClick(View view) {

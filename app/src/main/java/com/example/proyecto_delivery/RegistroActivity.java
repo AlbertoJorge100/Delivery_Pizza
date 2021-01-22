@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,25 +24,51 @@ public class RegistroActivity extends AppCompatActivity {
     private TextView txbDireccion;
     private TextView txbUsuario;
     private TextView txbPassword;
+    private TextView txbPassword2;
+    private ImageView imgPassword1;
+    private TextView imgPassword2;
+    private Boolean Pass1=false;
+    private Boolean Pass2=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
         this.txbNombre=findViewById(R.id.txbNombre);
         this.txbTelefono=findViewById(R.id.PagotxbTelefono);
         this.txbCorreo=findViewById(R.id.txbCorreo);
         this.txbDireccion=findViewById(R.id.PagotxbDireccion);
         this.txbUsuario=findViewById(R.id.txbUsuario);
         this.txbPassword=findViewById(R.id.txbPassword);
+        //this.txbPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        this.txbPassword2=findViewById(R.id.txbPassword2);
         Button btnRegistro=findViewById(R.id.btnRegistro);
+//        this.imgPassword1=findViewById(R.id.imgPassword1);
+  /*      imgPassword1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!Pass1){
+                    Pass1=true;
+                    txbPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    //txbPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
+                }else{
+                    Pass1=false;
+                    txbPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    //txbPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
+            }
+        });
+*/
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(ValidarCampos()){
-                    GuardarLibro();
+                    if(txbPassword.getText().toString()
+                    .equals(txbPassword2.getText().toString())){
+                        GuardarLibro();
+                    }else{
+                        txbPassword2.setError("Las contraseñas no coinciden !");
+                    }
                 }
             }
         });
@@ -55,7 +82,8 @@ public class RegistroActivity extends AppCompatActivity {
                 this.txbCorreo,
                 this.txbDireccion,
                 this.txbUsuario,
-                this.txbPassword
+                this.txbPassword,
+                this.txbPassword2
         };
         for(TextView aux: lista){
            if(aux.getText().toString().equals("")){

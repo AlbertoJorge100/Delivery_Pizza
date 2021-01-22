@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:ems="10"
-            android:maxLength="100"
+            android:maxLength="125"
             android:hint="Direccion de envío"
             android:inputType="textMultiLine"
             android:textAlignment="viewStart" />
@@ -122,10 +122,10 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:maxLength="40"
             android:ems="10"
             android:hint="Propietario"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:maxLength="40" />
 
     </LinearLayout>
 
@@ -184,9 +184,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:maxLength="3"
                 android:hint="CVV"
                 android:inputType="number"
+                android:maxLength="3"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -232,6 +232,16 @@
             android:layout_marginBottom="20dp"
             android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <EditText
+            android:id="@+id/editTextTextPersonName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:visibility="visible" />
 
     </LinearLayout>
 </ScrollView>

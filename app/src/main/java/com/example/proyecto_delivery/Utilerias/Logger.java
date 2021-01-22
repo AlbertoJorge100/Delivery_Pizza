@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class Logger {
     private static Logger Log;
-
     private int IdUsuario;
     private String Nombres;
     private String Usuario;
@@ -19,6 +18,7 @@ public class Logger {
     private String Correo;
     private String Telefono;
     private String Direccion;
+    private String Password2;
     private List<Carrito>ListaCarrito;
 
     //Variables para modificar la accion a realizar al ver el detalle de un producto
@@ -26,6 +26,7 @@ public class Logger {
     private _Opcion Opcion=_Opcion.AGREGAR;
 
     private Logger(){
+        this.Password2="";
         this.ListaCarrito=new ArrayList<>();
     }
     //synchronized cuando se usan muchos hilos no hayan errores
@@ -78,4 +79,13 @@ public class Logger {
         return this.Opcion;
     }
     public List<Carrito> getListaCarrito(){return this.ListaCarrito;}
+    public void setPassword2(String password2){
+        int cont=password2.length();
+        String pal="";
+        for(int i=0;i<cont;i++){
+            pal+="*";
+        }
+        this.Password2=pal;
+    }
+    public String getPassword2(){return this.Password2;}
 }

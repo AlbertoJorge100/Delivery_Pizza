@@ -209,7 +209,7 @@ public class ListaProducto extends AppCompatActivity {
         info1.setIdProducto(1);
         info1.setProducto("Banquetazo Familiar");
         info1.setPrecio(19.50);
-        info1.setCantidad(5);
+        info1.setCantidad(12);
         info1.setDescripcion("6 alitas empanizadas, 9 alitas fritas, 9 camperitos, 1 orden de trocitos" +
                 " Combo de 10 piezas de pollo combinadas, 5 acompañamientos, 5 ensaladas de repollo" +
                 " Banquete 30 alitas, con 4 acompañamientos, 3 aderezos y una pizza grande de un ingrediente " +
@@ -218,7 +218,7 @@ public class ListaProducto extends AppCompatActivity {
         info1.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Web58141.png");
 
         String descripcion="Combo de 10 piezas de pollo combinadas, 5 acompañamientos, 5 ensaladas de repollo\n\n" +
-                                "Ingredientes: \n\n" +
+                                "Incluye: \n\n" +
                                 "- 12 Panes \n"+
                                 "- 1  Ensalada Familiar \n"+
                                 "- 3  Flanes personales \n"+
@@ -286,7 +286,7 @@ public class ListaProducto extends AppCompatActivity {
         info9.setIdProducto(9);
         info9.setProducto("Combo 6 Piezas + Pizza Gigante Cumpleañero");
         info9.setPrecio(24.95);
-        info9.setCantidad(35);
+        info9.setCantidad(1);
         info9.setDescripcion("6 Piezas de pollo tradicional, 3 acompañamientos, 3 panes, pastel de tres leches familiar");
         info9.setImagen("https://www.campero.com/iCadImagesMNCSV/Productos/Wb53490.png");
 
@@ -316,12 +316,12 @@ public class ListaProducto extends AppCompatActivity {
         info1.setIdProducto(11);
         info1.setProducto("Duo Mega Combos");
         info1.setPrecio(9.99);
-        info1.setCantidad(5);
+        info1.setCantidad(1);
         info1.setDescripcion("Cada combo: Pizza Personal de Jamón, Pepperoni o Suprema más 4 palitroques personales");
         info1.setImagen("https://www.pizzahut.com.sv/static/media/images/products/webp/CMB_4917_MD.webp?2.0.22");
 
         Producto info2 = new Producto();
-        info2.setCantidad(25);
+        info2.setCantidad(1);
         info2.setIdProducto(12);
         info2.setProducto("Pizza Personal 1 Ingrediente + Soda 12 oz");
         info2.setPrecio(2.99);

@@ -37,7 +37,8 @@ public class Login extends AppCompatActivity {
                     classUsuario usuario=new classUsuario(Login.this);
                     if(usuario.GetUsuario(txbUsuario.getText().toString())){
                         //Encriptacion de contraseña ingresada x el usuario
-                        String password= Hash.generarHash(txbContrasena.getText().toString(),Hash.SHA256);
+                        String pass=txbContrasena.getText().toString();
+                        String password= Hash.generarHash(pass,Hash.SHA256);
                         if(password.equals(usuario.getPassword())){
                             Intent intsn=new Intent(Login.this,ListaInformacion.class);
                             startActivity(intsn);
@@ -47,6 +48,7 @@ public class Login extends AppCompatActivity {
                             logger.setNombres(usuario.getNombres());
                             logger.setUsuario(usuario.getUsuario());
                             logger.setPassword(password);
+                            logger.setPassword2(pass);
                             logger.setCorreo(usuario.getCorreo());
                             logger.setDireccion(usuario.getDireccion());
                             logger.setTelefono(usuario.getTelefono());

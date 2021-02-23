@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_delivery.Adaptadores.AdaptadorFactura;
 import com.example.proyecto_delivery.Clases.classFactura;
-import com.example.proyecto_delivery.Entidades.Factura;
+import com.example.proyecto_delivery.Modelos.Facturas;
 import com.example.proyecto_delivery.Utilerias.Logger;
 
 import java.util.ArrayList;
@@ -28,10 +28,17 @@ public class ListaFactura extends AppCompatActivity {
     private AdaptadorFactura adaptador;
     private LinearLayoutManager manager;
     private RecyclerView listaInformacion;
-    public static final String ID_FACTURA="Id";
+    public static final String ID_FACTURA="IdFCt";
+    public static final String ID_DIRECCION="IdDrcn";
+    public static final String ID_NUMERO_ORDEN="IdNmOd";
+    public static final String ID_PRODUCTOS="IdPrCt";
     public static final String ID_FECHA="IdfE";
     public static final String ID_TOTAL="IdTL";
-    private List<Factura> lista=new ArrayList<Factura>();
+    public static final String ID_ESTADO_ENVIO="IdESteNV";
+    //Lista de facturas
+    private List<Facturas> ListaFacturas=new ArrayList<Facturas>();
+
+    //lista para SQLite
     private List<classFactura> listaFactura=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,24 +46,35 @@ public class ListaFactura extends AppCompatActivity {
         setContentView(R.layout.activity_lista_factura);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        //Accedemos a la lista de facturas cargadas previamente desde el web services
+        Bundle extra = getIntent().getBundleExtra(ListaInformacion.ID_LISTA_FACTURAS);
+        this.ListaFacturas = (ArrayList<Facturas>) extra.getSerializable("lista");
+
         toolbar= findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Historial de compras");
 
         this.listaInformacion=findViewById(R.id.ListaFacturas);
         manager=new LinearLayoutManager(this);
-        this.lista=ListaInformacion.ListaFactura;
-        adaptador=new AdaptadorFactura(lista);
+        //this.lista=ListaInformacion.ListaFactura;
+        adaptador=new AdaptadorFactura(ListaFacturas);
         this.listaInformacion.setHasFixedSize(true);
         this.listaInformacion.setLayoutManager(manager);
         this.listaInformacion.setAdapter(adaptador);
+        //Evento onclick; presionar un item del reciclerview
         this.adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intn=new Intent(ListaFactura.this, ListaCompra.class);
-                intn.putExtra(ID_FACTURA,lista.get(listaInformacion.getChildAdapterPosition(view)).getIdFactura());
-                intn.putExtra(ID_FECHA,lista.get(listaInformacion.getChildAdapterPosition(view)).getFecha());
-                intn.putExtra(ID_TOTAL,lista.get(listaInformacion.getChildAdapterPosition(view)).getTotal());
+                //Redireccionar a la activity "ListaFacturaProductos", para poder visualizar la lista de productos
+                Facturas factura=ListaFacturas.get(listaInformacion.getChildAdapterPosition(view));
+                Intent intn=new Intent(ListaFactura.this, ListaFacturaProductos.class);
+                intn.putExtra(ID_FACTURA,factura.getIDFactura());
+                intn.putExtra(ID_FECHA,factura.getFecha());
+                intn.putExtra(ID_PRODUCTOS,factura.getProductos());
+                intn.putExtra(ID_TOTAL,factura.getTotal());
+                intn.putExtra(ID_ESTADO_ENVIO,factura.getEstadoEnvio());
+                intn.putExtra(ID_DIRECCION, factura.getDireccion());
+                intn.putExtra(ID_NUMERO_ORDEN,factura.getNumeroOrden());
                 startActivity(intn);
             }
         });
@@ -88,17 +106,22 @@ public class ListaFactura extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
+    //COntrolar los elementos del toolbar
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         super.onOptionsItemSelected(item);
         switch(item.getItemId()){
+            //Presionar carrito de compras
             case R.id.carrito:
                 Logger logger=Logger.getInstance();
-
+                //Validacion de lista de carritos desde singleton
                 if(logger.getListaCarrito().size()>0){
+                    //Existen productos en el carrito de compras; Mostrarlos
                     Intent intn=new Intent(ListaFactura.this,ListaCarrito.class);
                     startActivity(intn);
                 }else{
+                    //No existen productos en el carrito de compras
                     AlertDialog.Builder builder=new AlertDialog.Builder(ListaFactura.this);
                     builder.setTitle("Mensaje");
                     builder.setMessage("No hay productos agregados al carrito");
@@ -113,6 +136,7 @@ public class ListaFactura extends AppCompatActivity {
                 }
                 break;
             case R.id.persona:
+                //Presionar perfil de usuario
                 Intent intn=new Intent(ListaFactura.this,PerfilActivity.class);
                 startActivity(intn);
                 break;

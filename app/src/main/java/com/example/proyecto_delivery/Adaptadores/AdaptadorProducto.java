@@ -8,19 +8,24 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyecto_delivery.Entidades.Producto;
+import com.example.proyecto_delivery.Modelos.Productos;
 import com.example.proyecto_delivery.R;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> implements View.OnClickListener{
-    private List<Producto> listaInformacion;
+public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> implements View.OnClickListener {
+    private List<Productos> listaInformacion;
     private View.OnClickListener listener;
-        public AdaptadorProducto(List<Producto> listaInformacion){
+
+    public AdaptadorProducto(){
+
+    }
+    public void setListaInformacion(List<Productos> listaInformacion){
         this.listaInformacion=listaInformacion;
     }
+
 
     @NonNull
     @Override
@@ -48,17 +53,17 @@ public class AdaptadorProducto extends RecyclerView.Adapter<ViewHolderProducto> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderProducto holder, int position) {
         //Convirtiendo el precio a string para poder mostrar dos decimales
-        Producto producto=listaInformacion.get(position);
+        Productos producto=listaInformacion.get(position);
         DecimalFormat df = new DecimalFormat("0.00");
         String precio = df.format(producto.getPrecio()).replace(",", ".");
 
-        holder.getLblIdProducto().setText(Integer.toString(producto.getIdProducto()));
+        holder.getLblIdProducto().setText(Integer.toString(producto.getIDProducto()));
         holder.getLblProducto().setText(ValidarLongitud(1,producto.getProducto()));
         holder.getLblPrecio().setText("$ "+precio);
         //Esta es la descripcion previa al producto
         holder.getLblDescripcion().setText(ValidarLongitud(2,producto.getDescripcion()));
 
-        holder.getLblUnidades().setText(Integer.toString(producto.getCantidad())+" uds.");
+        holder.getLblUnidades().setText(Integer.toString(producto.getExistencias())+" uds.");
 
         //holder.getImagen().setImageURI(Uri.parse(listaInformacion.get(position).getImagen()));
         Picasso.get().load(producto.getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());

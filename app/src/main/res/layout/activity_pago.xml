@@ -34,28 +34,22 @@
         android:backgroundTint="@color/design_default_color_surface"
         android:text="Elige un municipio" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/PagotxbDireccion"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:ems="10"
-            android:maxLength="125"
-            android:hint="Direccion de envío"
-            android:inputType="textMultiLine"
-            android:textAlignment="viewStart" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1">
 
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PagotxbDireccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Direccion de envio"
+                android:maxLength="110" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
+        <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="63dp"
         android:layout_marginLeft="35dp"
@@ -63,7 +57,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/PagotxbTelefono"
+            android:id="@+id/RegtxbTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -91,6 +85,15 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="38dp"
+            android:layout_weight="1"
+            android:text="Datos de tarjeta:"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/lblTotalTarjeta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,53 +104,45 @@
             android:textSize="16sp" />
 
         <TextView
-        android:id="@+id/textView17"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="38dp"
-        android:layout_weight="1"
-        android:text="Datos de tarjeta:"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/PagotxbPropietario"
-            android:layout_width="350dp"
+            android:id="@+id/lblNumeroOrden"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="38dp"
+            android:layout_marginTop="7dp"
             android:layout_weight="1"
-            android:ems="10"
-            android:hint="Propietario"
-            android:inputType="textPersonName"
-            android:maxLength="40" />
+            android:text="TextView"
+            android:textSize="16sp" />
 
-    </LinearLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="35dp"
-        android:layout_marginRight="35dp"
-        android:orientation="horizontal">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PagotxbPropietario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="45"
+                android:hint="Propietario de tarjeta" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/PagotxbTarjeta"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:maxLength="20"
-            android:hint="Numero de tarjeta"
-            android:inputType="number"
-            android:textSize="18sp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_weight="1">
 
-    </LinearLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PagotxbTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="20"
+                android:inputType="number"
+                android:hint="Numero de tarjeta" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,37 +152,48 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/PagotxbAnio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Año: YY"
-                android:maxLength="2"
-                android:inputType="number"
-                android:textSize="18sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/PagotxbMes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:maxLength="2"
-                android:hint="Mes: MM"
-                android:inputType="number" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/PagotxbAnio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:hint="Año: (YY)" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/PagotxbCVV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="CVV"
-                android:inputType="number"
-                android:maxLength="3"
-                android:textSize="18sp" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/PagotxbMes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="2"
+                    android:hint="Mes: (MM)" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/PagotxbCVV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:hint="CVV" />
+            </com.google.android.material.textfield.TextInputLayout>
+
         </LinearLayout>
 
         <com.codesgood.views.JustifiedTextView
@@ -232,16 +238,6 @@
             android:layout_marginBottom="20dp"
             android:scaleType="fitXY"
             tools:srcCompat="@tools:sample/avatars" />
-
-        <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:visibility="visible" />
 
     </LinearLayout>
 </ScrollView>

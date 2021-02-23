@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:rotationX="-17"
+    android:rotationX="0"
     tools:context=".RegistroActivity">
 
     <LinearLayout
@@ -31,90 +31,96 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.036" />
 
-        <EditText
-            android:id="@+id/txbNombre"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntNombre"
-            android:inputType="textMultiLine"
-            android:maxLength="50" />
+            android:layout_marginRight="45dp">
 
-        <EditText
-            android:id="@+id/PagotxbTelefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntTelefono"
-            android:inputType="number"
-            android:maxLength="8" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="50"
+                android:hint="Nombre completo" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/txbCorreo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntCorreo"
-            android:inputType="textMultiLine"
-            android:maxLength="45" />
-
-        <EditText
-            android:id="@+id/txbUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntUsuario"
-            android:inputType="textPersonName"
-            android:maxLength="35" />
-
-        <EditText
-            android:id="@+id/txbPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntContraseña"
-            android:inputType="textPassword"
-            android:maxLength="35" />
-
-        <EditText
-            android:id="@+id/txbPassword2"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="Repetir contraseña"
-            android:inputType="textPassword"
-            android:maxLength="35" />
+            android:layout_marginRight="45dp">
 
-        <EditText
-            android:id="@+id/PagotxbDireccion"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:maxLength="8"
+                android:hint="Telefono" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="45dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginRight="45dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:maxLength="45"
+                android:hint="Correo electronico" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="35"
+                android:hint="Usuario" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
             android:layout_marginRight="45dp"
-            android:ems="10"
-            android:hint="@string/hntDireccion"
-            android:inputType="textMultiLine"
-            android:maxLength="125"
-            android:textAlignment="viewStart" />
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Contraseña"
+                android:inputType="textPassword"
+                android:maxLength="35" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="45dp"
+            android:layout_marginRight="45dp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/RegtxbPassword2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Repetir contraseña"
+                android:inputType="textPassword"
+                android:maxLength="35" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -125,7 +131,7 @@
             app:cardCornerRadius="3dp">
 
             <Button
-                android:id="@+id/btnRegistro"
+                android:id="@+id/RegbtnRegistro"
                 android:layout_width="match_parent"
                 android:layout_height="41dp"
                 android:background="#A184A5"
@@ -142,5 +148,6 @@
             android:layout_marginBottom="20dp"
             android:text="Los datos que ingreses seran muy valiosos, a la hora de que realices una orden, La mala escritura de algun campo afectara el envio de tu orden, tus datos son muy valiosos para ti y para nosotros."
             android:textSize="12sp" />
+
     </LinearLayout>
 </ScrollView>

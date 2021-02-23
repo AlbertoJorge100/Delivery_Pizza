@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,12 +42,14 @@ public class ListaCarrito extends AppCompatActivity{
     //Atributos para usar el recyclerview
     /*El adaptador es estatico porque se necesita modificarlo desde la clase
     * "DetalleActivity" en cualquier momento. */
-    public static AdaptadorCarrito adaptador;
+    public static AdaptadorCarrito adaptador=new AdaptadorCarrito();
     private List<Carrito> lista=new ArrayList<>();
     private LinearLayoutManager manager;
     private RecyclerView ListaCarrito;
 
     //Ids para poder enviar datos hacia la activity Detalle
+    public static final int ID_PAGO_RESULTADO=1;
+    public static final String TAG_MSJV="maSJ_J";
     public static final String ID_CANT_LIMITE="canT";
     public static final String ID_INDICE="Indice";
     public static final String ID_PRODUCTO="IdProducto";
@@ -79,7 +82,7 @@ public class ListaCarrito extends AppCompatActivity{
         //ReciclerView
         manager=new LinearLayoutManager(this);
         this.ListaCarrito=findViewById(R.id.ListaCarritos);
-        adaptador=new AdaptadorCarrito(this.logger.getListaCarrito(), AdaptadorCarrito.Opcion.INSERTAR);//Accediendo a la lista de productos
+        this.adaptador.setListaCarrito(this.logger.getListaCarrito());
         this.lista=logger.getListaCarrito();//Traspaso de datos singleton
         this.ListaCarrito.setHasFixedSize(true);
         this.ListaCarrito.setLayoutManager(manager);
@@ -100,12 +103,15 @@ public class ListaCarrito extends AppCompatActivity{
         lblTotal.setText("$ "+this.logger.getTotalPagar());
 
         Button btnPagar=findViewById(R.id.btnPagar);
+        //Evento boton pagar
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intn=new Intent(ListaCarrito.this,PagoActivity.class);
+                //Envio de id
                 intn.putExtra(ListaCarrito.this.ID_PAGO,lblTotal.getText().toString());
-                startActivity(intn);
+                //Esperamos que si se concretó el pago, se cierre esta activity
+                startActivityForResult(intn,ID_PAGO_RESULTADO);
                 /*
                 if(ValidarCampos(new TextView[]{txbTarjeta,txbAnio,txbMes,txbCVV})){
                     int idf=ObtenerIdFactura();
@@ -212,7 +218,7 @@ public class ListaCarrito extends AppCompatActivity{
         int respuesta=-1;
         classFactura factura=new classFactura(this);
         Logger logger=Logger.getInstance();
-        factura.setIdCliente(logger.getIdUsuario());
+        factura.setIdCliente(logger.getUsuario().getIDUsuario());
         factura.setTotal(Double.parseDouble(this.logger.getTotalPagar()));
         factura.setCantidadProductos(lista.size());
         factura.setFecha(fecha);
@@ -221,6 +227,25 @@ public class ListaCarrito extends AppCompatActivity{
             respuesta=factura.getIdFactura();
         }
         return respuesta;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode){
+            case ID_PAGO_RESULTADO:
+                if(data!=null){
+                    //En caso de que haya sido exitoso el pago debe cerrarse esta activity
+                    Boolean resultado=data.getBooleanExtra(PagoActivity.TAG_MSJ,false);
+                    if(resultado){
+                        Intent intn=new Intent();
+                        intn.putExtra(TAG_MSJV,true);
+                        setResult(ListaProducto.ID_CERRAR,intn);
+                        this.finish();
+                    }
+                }
+                break;
+        }
     }
 
     /*private Boolean ValidarCampos(TextView lista[]){

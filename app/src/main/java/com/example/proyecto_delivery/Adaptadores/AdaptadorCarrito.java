@@ -19,11 +19,13 @@ public class AdaptadorCarrito  extends RecyclerView.Adapter<ViewHolderCarrito> i
     private List<Carrito> listaCarrito;
     private View.OnClickListener listener;
     private View.OnLongClickListener longListener;
-    public AdaptadorCarrito(List<Carrito> listaCarrito, Opcion opc){
-        this.listaCarrito=listaCarrito;
-        this.opcion=opc;
+    public AdaptadorCarrito(){
+
     }
 
+    public void setListaCarrito(List<Carrito> listaCarrito){
+        this.listaCarrito=listaCarrito;
+    }
     public void setOnClickListener(View.OnClickListener listener){
         this.listener=listener;
     }

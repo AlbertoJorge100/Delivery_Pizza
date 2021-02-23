@@ -8,16 +8,19 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.proyecto_delivery.Entidades.Informacion;
+import com.example.proyecto_delivery.Modelos.Categorias;
 import com.example.proyecto_delivery.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class AdaptadorInformacion extends RecyclerView.Adapter<ViewHolderInformacion> implements View.OnClickListener{
-    private List<Informacion> listaInformacion;
+    private List<Categorias> listaInformacion;
     private View.OnClickListener listener;
-    public AdaptadorInformacion(List<Informacion> listaInformacion){
+    public AdaptadorInformacion(){
+
+    }
+    public void setListaInformacion(List<Categorias> listaInformacion){
         this.listaInformacion=listaInformacion;
     }
 
@@ -34,8 +37,8 @@ public class AdaptadorInformacion extends RecyclerView.Adapter<ViewHolderInforma
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderInformacion holder, int position) {
-        holder.getLblIdMenu().setText(Integer.toString(listaInformacion.get(position).getIdMenu()));
-        holder.getLblTitulo().setText(listaInformacion.get(position).getTitulo());
+        holder.getLblIdMenu().setText(Integer.toString(listaInformacion.get(position).getIDCategoria()));
+        holder.getLblTitulo().setText(listaInformacion.get(position).getCategoria());
         Picasso.get().load(listaInformacion.get(position).getImagen()).error(R.mipmap.ic_launcher_round).fit().centerInside().into((ImageView) holder.getImagen());
     }
 

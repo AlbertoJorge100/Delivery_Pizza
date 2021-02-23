@@ -1,21 +1,26 @@
 package com.example.proyecto_delivery;
 
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.proyecto_delivery.Clases.classUsuario;
+import com.example.proyecto_delivery.BaseDatos.RespuestaUsuarios;
+import com.example.proyecto_delivery.Interfaces.JsonPlaceHolder;
+import com.example.proyecto_delivery.Modelos.Usuarios;
 import com.example.proyecto_delivery.Utilerias.Hash;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegistroActivity extends AppCompatActivity {
     private TextView txbNombre;
@@ -29,20 +34,22 @@ public class RegistroActivity extends AppCompatActivity {
     private TextView imgPassword2;
     private Boolean Pass1=false;
     private Boolean Pass2=false;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        this.txbNombre=findViewById(R.id.txbNombre);
-        this.txbTelefono=findViewById(R.id.PagotxbTelefono);
-        this.txbCorreo=findViewById(R.id.txbCorreo);
-        this.txbDireccion=findViewById(R.id.PagotxbDireccion);
-        this.txbUsuario=findViewById(R.id.txbUsuario);
-        this.txbPassword=findViewById(R.id.txbPassword);
+        progressDialog=new ProgressDialog(this);
+
+        this.txbNombre=findViewById(R.id.RegtxbNombre);
+        this.txbTelefono=findViewById(R.id.RegtxbTelefono);
+        this.txbCorreo=findViewById(R.id.RegtxbCorreo);
+        this.txbUsuario=findViewById(R.id.RegtxbUsuario);
+        this.txbPassword=findViewById(R.id.RegtxbPassword);
         //this.txbPassword.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        this.txbPassword2=findViewById(R.id.txbPassword2);
-        Button btnRegistro=findViewById(R.id.btnRegistro);
+        this.txbPassword2=findViewById(R.id.RegtxbPassword2);
+        Button btnRegistro=findViewById(R.id.RegbtnRegistro);
 //        this.imgPassword1=findViewById(R.id.imgPassword1);
   /*      imgPassword1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,7 +72,14 @@ public class RegistroActivity extends AppCompatActivity {
                 if(ValidarCampos()){
                     if(txbPassword.getText().toString()
                     .equals(txbPassword2.getText().toString())){
-                        GuardarLibro();
+                        Usuarios usuario=new Usuarios();
+                        String nombreusuario=txbUsuario.getText().toString();
+                        usuario.setNombres(txbNombre.getText().toString());
+                        usuario.setCorreo(txbCorreo.getText().toString());
+                        usuario.setTelefono(txbTelefono.getText().toString());
+                        usuario.setUsuario(nombreusuario);
+                        usuario.setPassword(Hash.generarHash(txbPassword.getText().toString(),Hash.SHA256));
+                        GuardarUsuario(usuario);
                     }else{
                         txbPassword2.setError("Las contraseñas no coinciden !");
                     }
@@ -80,7 +94,6 @@ public class RegistroActivity extends AppCompatActivity {
                 this.txbNombre,
                 this.txbTelefono,
                 this.txbCorreo,
-                this.txbDireccion,
                 this.txbUsuario,
                 this.txbPassword,
                 this.txbPassword2
@@ -91,8 +104,80 @@ public class RegistroActivity extends AppCompatActivity {
                resultado=false;
            }
         }
+        if(resultado){
+            if(txbTelefono.getText().toString().length()<8){
+                txbTelefono.setError("Numero de telefono invalido !");
+                resultado=false;
+            }
+            if(!ValidarCorreo()){
+                txbCorreo.setError("Correo invalido !");
+            }
+            if(txbUsuario.getText().toString().length()<6){
+                txbUsuario.setError("Usuario muy corto !");
+                resultado=false;
+            }
+            if(txbPassword.getText().toString().length()<6){
+                txbPassword.setError("Contraseña muy corta !");
+                resultado=false;
+            }
+        }
         return resultado;
     }
+
+    private Boolean ValidarCorreo(){
+        String correo=txbCorreo.getText().toString();
+        int i=0, cont=0;
+        while(i<correo.length()){
+            if(correo.charAt(i)=='@'){
+                cont++;
+            }
+            if(correo.charAt(i)=='.'){
+                cont++;
+            }
+            i++;
+        }
+        return (cont>=2);
+    }
+    private void GuardarUsuario(Usuarios usuario){
+        this.progressDialog.show();
+        this.progressDialog.setMessage("Cargando...");
+        this.progressDialog.setCancelable(false);
+        String url=getResources().getString(R.string.UrlAplicacion_local);
+        Retrofit retrofit=new Retrofit
+                .Builder()
+                .baseUrl(url)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolder jsonPlaceHolder=retrofit.create(JsonPlaceHolder.class);
+        Call<RespuestaUsuarios> call=jsonPlaceHolder.AddUsuarios(usuario);
+        call.enqueue(new Callback<RespuestaUsuarios>() {
+            @Override
+            public void onResponse(Call<RespuestaUsuarios> call, Response<RespuestaUsuarios> response) {
+                if(response.isSuccessful()){
+                    RespuestaUsuarios respuesta=response.body();
+                    if(respuesta.getUsuario()!=null && respuesta.getCodigo().equals("200")){
+                        //Registro guardado con exito
+                        RegistroActivity.this.finish();
+                    }
+                    //En caso que lo guarde o no, lo mostrara a traves del mensaje
+                    Toast.makeText(RegistroActivity.this,respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(RegistroActivity.this,"Error: onResponse "+response.message(), Toast.LENGTH_SHORT).show();
+                }
+                RegistroActivity.this.progressDialog.dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<RespuestaUsuarios> call, Throwable t) {
+                RegistroActivity.this.progressDialog.dismiss();
+                Toast.makeText(RegistroActivity.this,"Error onFailure :"+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
+   /*
+    GuardarSQLITE
     private void GuardarLibro() {//Perdon Cliente jeje
         classUsuario registro=new classUsuario(this);
         try {
@@ -126,5 +211,5 @@ public class RegistroActivity extends AppCompatActivity {
             Log.d("ERROR_LIBROS", ex.getMessage());
             Toast.makeText(this, "No fue posible Agregar los datos!", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 }

@@ -11,11 +11,11 @@
         android:roundIcon="@mipmap/icono_delivery_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ListaFacturaProductos"></activity>
         <activity android:name=".PagoActivity" />
         <activity android:name=".Cargando" />
         <activity android:name=".Login" />
         <activity android:name=".ListaFactura" />
-        <activity android:name=".ListaCompra" />
         <activity android:name=".ListaCarrito" />
         <activity android:name=".ListaProducto" />
         <activity android:name=".DetalleActivity" />

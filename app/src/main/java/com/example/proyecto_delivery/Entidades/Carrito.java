@@ -9,6 +9,11 @@ public class Carrito {
     private int Cant_Limite;
     private String Imagen;
     private String Descripcion;
+    public Carrito(){
+        this.idProducto=0;
+        this.Cant_Limite=0;
+        this.Descripcion="";
+    }
 
     public void setCant_Limite(int cant_Limite){this.Cant_Limite=cant_Limite;}
 

@@ -1,6 +1,7 @@
 package com.example.proyecto_delivery.Utilerias;
 
 import com.example.proyecto_delivery.Entidades.Carrito;
+import com.example.proyecto_delivery.Modelos.Usuarios;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -11,22 +12,18 @@ import java.util.List;
  */
 public class Logger {
     private static Logger Log;
-    private int IdUsuario;
-    private String Nombres;
-    private String Usuario;
-    private String Password;
-    private String Correo;
-    private String Telefono;
-    private String Direccion;
-    private String Password2;
+    private Usuarios Usuario;
     private List<Carrito>ListaCarrito;
-
+    private String Password2;
     //Variables para modificar la accion a realizar al ver el detalle de un producto
     public enum _Opcion {AGREGAR, MODIFICAR};
     private _Opcion Opcion=_Opcion.AGREGAR;
+    private int IDFactura;
+    private int NumeroOrden;
+    private Boolean Gestionado;
 
     private Logger(){
-        this.Password2="";
+        this.Gestionado=false;
         this.ListaCarrito=new ArrayList<>();
     }
     //synchronized cuando se usan muchos hilos no hayan errores
@@ -35,6 +32,13 @@ public class Logger {
            Log=new Logger();
         }
         return Log;
+    }
+
+    public void setUsuario(Usuarios usuario){
+        this.Usuario=usuario;
+    }
+    public Usuarios getUsuario(){
+        return this.Usuario;
     }
     public String getTotalPagar(){
         double resultado=0;
@@ -55,20 +59,6 @@ public class Logger {
     public int getItems(){
         return this.ListaCarrito.size();
     }
-    public void setUsuario(String usuario){this.Usuario=usuario;}
-    public String getUsuario(){return this.Usuario;}
-    public void setIdUsuario(int IdUsuario){this.IdUsuario=IdUsuario;}
-    public int getIdUsuario(){return this.IdUsuario;}
-    public void setPassword(String password){this.Password=password;}
-    public String getPassword(){return this.Password;}
-    public void setCorreo(String correo){this.Correo=correo;}
-    public String getCorreo(){return this.Correo;}
-    public void setDireccion(String direccion){this.Direccion=direccion;}
-    public String getDireccion(){return this.Direccion;}
-    public void setTelefono(String telefono){this.Telefono=telefono;}
-    public String getTelefono(){return this.Telefono;}
-    public void setNombres(String nombres){this.Nombres=nombres;}
-    public String getNombres(){return this.Nombres;}
     public void setItemCarrito(Carrito carrito){
         this.ListaCarrito.add(carrito);
     }
@@ -88,4 +78,13 @@ public class Logger {
         this.Password2=pal;
     }
     public String getPassword2(){return this.Password2;}
+    public void setIDFactura(int idFactura){
+        this.Gestionado=true;
+        this.IDFactura=idFactura;
+    }
+    public void setNumeroOrden(int numeroOrden){this.NumeroOrden=numeroOrden;}
+    public int getIDFactura(){return this.IDFactura;}
+    public int getNumeroOrden(){return this.NumeroOrden;}
+    public void setGestionado(Boolean gestionado){this.Gestionado=gestionado;}
+    public Boolean getGestionado(){return this.Gestionado;}
 }

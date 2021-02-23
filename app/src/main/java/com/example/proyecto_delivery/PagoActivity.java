@@ -23,6 +23,7 @@ import com.example.proyecto_delivery.Interfaces.JsonPlaceHolder;
 import com.example.proyecto_delivery.Modelos.FacturaProductos;
 import com.example.proyecto_delivery.Modelos.IDFactura;
 import com.example.proyecto_delivery.Modelos.Pagos;
+import com.example.proyecto_delivery.Modelos.Usuarios;
 import com.example.proyecto_delivery.Utilerias.FragmentDialog;
 import com.example.proyecto_delivery.Utilerias.Logger;
 import com.squareup.picasso.Picasso;
@@ -280,6 +281,11 @@ public class PagoActivity extends AppCompatActivity {
                             Toast.makeText(PagoActivity.this,respuesta.getMensaje(),Toast.LENGTH_SHORT).show();
                             PagoActivity.this._Logger.getListaCarrito().clear();
                             PagoActivity.this._Logger.setGestionado(false);
+
+                            //Modificacion de las compras del usuario, Paso de direccion de memoria del usuario
+                            Usuarios user_aux=PagoActivity.this._Logger.getUsuario();
+                            user_aux.setCompras(user_aux.getCompras()+1);
+
                             //ListaCarrito.finish();
                             Intent intn=new Intent();
                             intn.putExtra(TAG_MSJ,true);

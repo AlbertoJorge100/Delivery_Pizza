@@ -312,6 +312,26 @@
             android:textSize="18sp" />
     </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:text="Compras realizadas:"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/lblPerfilCompras"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="15dp"
+            android:text="5"
+            android:textAlignment="viewStart"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:id="@+id/LayoutConfirmacion"
             android:layout_width="match_parent"

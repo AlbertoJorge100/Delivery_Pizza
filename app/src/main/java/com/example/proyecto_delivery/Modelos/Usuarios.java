@@ -17,13 +17,21 @@ public class Usuarios implements Serializable {
     private String Usuario;
     @SerializedName("Password")
     private String Password;
+    @SerializedName("Compras")
+    private int Compras;
     public Usuarios(){
+        this.Compras=0;
         this.Nombres="";
         this.Correo="";
         this.Telefono="";
         this.Usuario="";
         this.Password="";
     }
+
+    public int getCompras(){return this.Compras;}
+
+    public void setCompras(int compras){this.Compras=compras;}
+
     public int getIDUsuario() {
         return IDUsuario;
     }

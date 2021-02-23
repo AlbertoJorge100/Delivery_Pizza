@@ -77,6 +77,8 @@ public class PerfilActivity extends AppCompatActivity {
         final TextView lblCorreo=findViewById(R.id.lblPerfilCorreo);
         final TextView lblPassword=findViewById(R.id.lblPerfilPassword);
         final TextView lblTituloPassword=findViewById(R.id.lblTituloPassword);
+        final TextView lblPerfilCompras=findViewById(R.id.lblPerfilCompras);
+        lblPerfilCompras.setText(Integer.toString(this.UsuarioSingleton.getCompras()));
 
         this.btnAceptar=findViewById(R.id.PerfilbtnAceptar);
         this.txbNombres=findViewById(R.id.PerfiltxbNombres);

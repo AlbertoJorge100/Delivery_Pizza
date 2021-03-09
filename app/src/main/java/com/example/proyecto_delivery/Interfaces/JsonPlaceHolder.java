@@ -4,6 +4,7 @@ package com.example.proyecto_delivery.Interfaces;
 import com.example.proyecto_delivery.BaseDatos.RespuestaProductos;
 import com.example.proyecto_delivery.BaseDatos.RespuestaUsuarios;
 import com.example.proyecto_delivery.Modelos.Categorias;
+import com.example.proyecto_delivery.Modelos.Existencias;
 import com.example.proyecto_delivery.Modelos.Facturas;
 import com.example.proyecto_delivery.Modelos.IDFactura;
 import com.example.proyecto_delivery.Modelos.OrdenProductos;
@@ -70,6 +71,11 @@ public interface JsonPlaceHolder {
     //Enviamos la lista de productos, que deseamos facturar, y tambien la direccion del envio
     @POST("AddFacturaProductos")
     Call<RespuestaProductos> InsertFacturaProductos(@Body Pagos facturaProductos);
+
+    //Actualizar las categorias en: pull to refresh de lista de productos
+    @GET("getExstCategoria/{idcategoria}")
+    Call<List<Existencias>> GetExstCategorias(@Path("idcategoria") int idcategoria);
+
 
 /*  Call<Productos> AddProductos(@Field("Producto") String Producto,
                                  @Field("Precio") double Precio,

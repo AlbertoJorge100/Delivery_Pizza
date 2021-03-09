@@ -13,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
+/**
+ * Splash activity
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 while (progreso < 100){
                     //simular proceso
                     try{
-                        Thread.sleep(5);
+                        Thread.sleep(15);
                     }
                     catch (InterruptedException e){
                         e.printStackTrace();

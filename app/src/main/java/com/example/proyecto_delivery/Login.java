@@ -17,7 +17,6 @@ import com.example.proyecto_delivery.Interfaces.JsonPlaceHolder;
 import com.example.proyecto_delivery.Modelos.Categorias;
 import com.example.proyecto_delivery.Modelos.Usuarios;
 import com.example.proyecto_delivery.Utilerias.Hash;
-import com.example.proyecto_delivery.Utilerias.LoadingDialog;
 import com.example.proyecto_delivery.Utilerias.Logger;
 
 import java.io.Serializable;
@@ -48,11 +47,10 @@ public class Login extends AppCompatActivity implements Serializable {
         txbContrasena = findViewById(R.id.txbContrasena);
         this.progressDialog = new ProgressDialog(this);
 
+        Button btnSesion = findViewById(R.id.btnSesion);
+        //final LoadingDialog loadingDialog = new LoadingDialog(Login.this);
         txbUsuario.setText("adminh");
         txbContrasena.setText("adminh");
-        Button btnSesion = findViewById(R.id.btnSesion);
-        final LoadingDialog loadingDialog = new LoadingDialog(Login.this);
-
         //Presionar inicio de sesion
         btnSesion.setOnClickListener(new View.OnClickListener() {
             @Override

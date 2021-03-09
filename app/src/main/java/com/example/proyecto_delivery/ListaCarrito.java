@@ -42,11 +42,12 @@ public class ListaCarrito extends AppCompatActivity{
     //Atributos para usar el recyclerview
     /*El adaptador es estatico porque se necesita modificarlo desde la clase
     * "DetalleActivity" en cualquier momento. */
-    public static AdaptadorCarrito adaptador=new AdaptadorCarrito();
+    public AdaptadorCarrito Adaptador=new AdaptadorCarrito();
     private List<Carrito> lista=new ArrayList<>();
     private LinearLayoutManager manager;
     private RecyclerView ListaCarrito;
-
+    //Validar si hay existencias modificadas en el servidor
+    private Boolean ExstMod=false;
     //Ids para poder enviar datos hacia la activity Detalle
     public static final int ID_PAGO_RESULTADO=1;
     public static final String TAG_MSJV="maSJ_J";
@@ -73,6 +74,8 @@ public class ListaCarrito extends AppCompatActivity{
     //Variable Singleton para poder manejar la lista de productos
     private Logger logger=Logger.getInstance();
 
+    private Button BtnPagar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +85,11 @@ public class ListaCarrito extends AppCompatActivity{
         //ReciclerView
         manager=new LinearLayoutManager(this);
         this.ListaCarrito=findViewById(R.id.ListaCarritos);
-        this.adaptador.setListaCarrito(this.logger.getListaCarrito());
+        this.Adaptador.setListaCarrito(this.logger.getListaCarrito());
         this.lista=logger.getListaCarrito();//Traspaso de datos singleton
         this.ListaCarrito.setHasFixedSize(true);
         this.ListaCarrito.setLayoutManager(manager);
-        this.ListaCarrito.setAdapter(adaptador);
+        this.ListaCarrito.setAdapter(Adaptador);
 
         /*Toast.makeText(ListaCarrito.this,this.lista.get(0).getProducto()
                 +" "+this.lista.get(0).getPrecioUnitario(),Toast.LENGTH_SHORT).show();*/
@@ -102,9 +105,9 @@ public class ListaCarrito extends AppCompatActivity{
         lblProductos.setText(Integer.toString(this.logger.getCantidadProductos()));
         lblTotal.setText("$ "+this.logger.getTotalPagar());
 
-        Button btnPagar=findViewById(R.id.btnPagar);
+        this.BtnPagar=findViewById(R.id.btnPagar);
         //Evento boton pagar
-        btnPagar.setOnClickListener(new View.OnClickListener() {
+        this.BtnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intn=new Intent(ListaCarrito.this,PagoActivity.class);
@@ -113,6 +116,7 @@ public class ListaCarrito extends AppCompatActivity{
                 //Esperamos que si se concretó el pago, se cierre esta activity
                 startActivityForResult(intn,ID_PAGO_RESULTADO);
                 /*
+                SQLite
                 if(ValidarCampos(new TextView[]{txbTarjeta,txbAnio,txbMes,txbCVV})){
                     int idf=ObtenerIdFactura();
                     if(idf>0){
@@ -139,7 +143,7 @@ public class ListaCarrito extends AppCompatActivity{
         });
 
         //Evento mantener presionado un item de la lista: Eliminar unproducto de la lista
-        this.adaptador.setOnLongClickListener(new View.OnLongClickListener() {
+        this.Adaptador.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View view) {
                 //Mostrando un AlertDialog para confirmacion
@@ -160,7 +164,7 @@ public class ListaCarrito extends AppCompatActivity{
                         //Eliminando el item accediendo a Singleton: "ListaCarrito.getChildAdapterPosition(view)" esto retorna el indice de la lista
                         ListaCarrito.this.logger.getListaCarrito().remove(ListaCarrito.getChildAdapterPosition(view));
                         /*Modificando el adaptador para mostrar los cambios*/
-                        ListaCarrito.this.adaptador.notifyDataSetChanged();
+                        ListaCarrito.this.Adaptador.notifyDataSetChanged();
 
                         //Recalculando los totales con la clase "CalcularTotales"
                         ListaCarrito.this.lblProductos.setText(Integer.toString(ListaCarrito.this.logger.getCantidadProductos()));
@@ -180,7 +184,7 @@ public class ListaCarrito extends AppCompatActivity{
         });
 
         //Evento click de un item: "Visualizar detalles"
-        this.adaptador.setOnClickListener(new View.OnClickListener() {
+        this.Adaptador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Modificando la variable de sesion
@@ -233,18 +237,24 @@ public class ListaCarrito extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch(requestCode){
-            case ID_PAGO_RESULTADO:
+            case ID_PAGO_RESULTADO:{//Siempre usar llaves.... :'c
                 if(data!=null){
-                    //En caso de que haya sido exitoso el pago debe cerrarse esta activity
-                    Boolean resultado=data.getBooleanExtra(PagoActivity.TAG_MSJ,false);
-                    if(resultado){
-                        Intent intn=new Intent();
+                    Boolean cerrarAct=data.getBooleanExtra(PagoActivity.TAG_MSJ,false);
+                    if(cerrarAct){
+                        //Cerrar esta activity
+                        /*Intent intn=new Intent();
                         intn.putExtra(TAG_MSJV,true);
-                        setResult(ListaProducto.ID_CERRAR,intn);
+                        setResult(ListaProducto.ID_CERRAR,intn);*/
                         this.finish();
+                    }else{
+                        //Hubieron modificaciones... en las cantidades
+                        lblTotal.setText("$ "+this.logger.getTotalPagar());
+                        //Actualizando los cambios en el carrito de compras
+                        this.Adaptador.notifyDataSetChanged();
                     }
                 }
                 break;
+            }
         }
     }
 

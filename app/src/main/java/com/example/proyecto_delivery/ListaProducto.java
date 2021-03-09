@@ -23,6 +23,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.example.proyecto_delivery.Adaptadores.AdaptadorProducto;
 import com.example.proyecto_delivery.Entidades.Carrito;
 import com.example.proyecto_delivery.Interfaces.JsonPlaceHolder;
+import com.example.proyecto_delivery.Modelos.Existencias;
 import com.example.proyecto_delivery.Modelos.Productos;
 import com.example.proyecto_delivery.Utilerias.Logger;
 
@@ -75,7 +76,7 @@ public class ListaProducto extends AppCompatActivity {
         int idcategoria=getIntent().getIntExtra(ListaInformacion.ID_CATEGORIA,0);
 
         //Cargando los productos
-        CargarProductos(idcategoria,false);
+        CargarProductos(idcategoria);
 
         //Evento on click del adaptador, (Presionando un producto)
         this.Adaptador.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +102,7 @@ public class ListaProducto extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                CargarProductos(getIntent().getIntExtra(ListaInformacion.ID_CATEGORIA,0),true);
+                ActualizarExistencias(getIntent().getIntExtra(ListaInformacion.ID_CATEGORIA,0));
             }
         });
     }
@@ -179,9 +180,9 @@ public class ListaProducto extends AppCompatActivity {
     /**
      * Caragndo los productos del web services
      * @param idcategoria
-     * @param refresh if true: Presiono pull to refresh
+     *
      */
-    private void CargarProductos(int idcategoria, final Boolean refresh){
+    private void CargarProductos(int idcategoria){
         try{
             //Mostrando progreso
             progressDialog.show();
@@ -201,7 +202,12 @@ public class ListaProducto extends AppCompatActivity {
                     if(response.isSuccessful()){
                         //Peticion exitosa
                         ListaProducto.this.ListaProductos=response.body();
-                        if(!refresh) {
+                        ListaProducto.this.Adaptador.setListaInformacion(ListaProducto.this.ListaProductos);
+                        ListaProducto.this.Manager= new LinearLayoutManager(ListaProducto.this);
+                        ListaProducto.this.ReciclerV.setHasFixedSize(true);
+                        ListaProducto.this.ReciclerV.setLayoutManager(ListaProducto.this.Manager);
+                        ListaProducto.this.ReciclerV.setAdapter(ListaProducto.this.Adaptador);
+                        /*if(!refresh) {
                             ListaProducto.this.Adaptador.setListaInformacion(ListaProducto.this.ListaProductos);
                             ListaProducto.this.Manager= new LinearLayoutManager(ListaProducto.this);
                             ListaProducto.this.ReciclerV.setHasFixedSize(true);
@@ -213,7 +219,7 @@ public class ListaProducto extends AppCompatActivity {
                             //ModificarLista(response.body());
                             ListaProducto.this.Adaptador.notifyDataSetChanged();
                             ListaProducto.this.swipeRefreshLayout.setRefreshing(false);
-                        }
+                        }*/
                     }else{
                         Toast.makeText(ListaProducto.this,"Error onResponse: "+response.message(),Toast.LENGTH_SHORT).show();
                     }
@@ -236,9 +242,55 @@ public class ListaProducto extends AppCompatActivity {
      * y si alguno de nuestros productos en el carrito de compras, tienen existencias mayores a las que el servidor nos
      * devuelve, procederemos a modificar esas existencias.
      */
-    private void RefreshExistencias(){
+    private void RefreshExistencias(List<Existencias> listapro){
+        Boolean act_existencias=false;
         Logger logger=Logger.getInstance();
-        List<Carrito> lista=logger.getListaCarrito();
+        for(int i=0;i<this.ListaProductos.size();i++){
+            for(int j=0;j<listapro.size();j++){
+                if(this.ListaProductos.get(i).getIDProducto()==listapro.get(j).getId()){
+                    //Setear existencias
+                    this.ListaProductos.get(i).setExistencias(listapro.get(j).getExistencias());
+                    break;
+                }
+            }
+        }
+
+        Carrito carrito;
+        Productos producto;
+        for(int i=0;i<logger.getListaCarrito().size();i++){
+            carrito=logger.getListaCarrito().get(i);
+            for(int j=0;j<this.ListaProductos.size();j++){
+                producto=this.ListaProductos.get(j);
+                if(carrito.getIdProducto()==producto.getIDProducto()){
+                    if(carrito.getCantidad()>producto.getExistencias()){
+                        //Modificando las existencias en el carrito de compras
+                        if(producto.getExistencias()==0){
+                            //Las existencias del producto no existen, borrar producto de la lista de carrito
+                            logger.getListaCarrito().remove(i);
+                            //Eliminar el producto de la lista de productos
+                            this.ListaProductos.remove(j);
+                        }else{
+                            //Actualizando la cantidad en carrito de compras
+                            logger.getListaCarrito().get(i).setCantidad(producto.getExistencias());
+                            //Actualizando la cantidad limite en carrito de compras
+                            logger.getListaCarrito().get(i).setCant_Limite(producto.getExistencias());
+                        }
+                        act_existencias=true;
+                    }
+                    break;
+                }
+            }
+        }
+        if(act_existencias){
+            Toast.makeText(getApplicationContext(),"Se modificaron existencias en tu carrito de compras",
+                    Toast.LENGTH_SHORT).show();
+        }
+        //Actualizando las existencias en el recyclerview
+        this.Adaptador.notifyDataSetChanged();
+        //Detener el progressbar: pull to refresh
+        this.swipeRefreshLayout.setRefreshing(false);
+
+        /*List<Carrito> lista=logger.getListaCarrito();
         int cont=0;
         if(lista.size()>0){
             for(Carrito carrito:lista){
@@ -256,8 +308,40 @@ public class ListaProducto extends AppCompatActivity {
                 Toast.makeText(ListaProducto.this,
                         cont+" Productos fueron modificados en tu carrito de compras ",Toast.LENGTH_SHORT).show();
             }
+        }*/
+    }
+
+    private void ActualizarExistencias(int idcategoria){
+        try {
+            String url=getResources().getString(R.string.UrlAplicacion_local);
+            Retrofit retrofit=new Retrofit
+                    .Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            JsonPlaceHolder jsonPlaceHolder=retrofit.create(JsonPlaceHolder.class);
+            Call<List<Existencias>> call=jsonPlaceHolder.GetExstCategorias(idcategoria);
+            call.enqueue(new Callback<List<Existencias>>() {
+                @Override
+                public void onResponse(Call<List<Existencias>> call, Response<List<Existencias>> response) {
+                    if(response.isSuccessful()){
+                        RefreshExistencias(response.body());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Existencias>> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(),
+                            "Error onFailure: "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),
+                    "Excepcion actualizar exst: "+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     /**
      * Insertar productos al web services

@@ -82,7 +82,6 @@ public class AdaptadorCarrito  extends RecyclerView.Adapter<ViewHolderCarrito> i
         holder.getLblDescripcion().setText(listaCarrito.get(position).getDescripcion());
         Picasso.get().load(listaCarrito.get(position).getImagen()).error(R.mipmap.ic_launcher_round)
                 .fit().centerInside().into((ImageView)holder.getImagenProducto());
-
         if(this.opcion==Opcion.ELIMINAR){
             //Code make here
         }

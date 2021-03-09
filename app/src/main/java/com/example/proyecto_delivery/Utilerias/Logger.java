@@ -1,6 +1,7 @@
 package com.example.proyecto_delivery.Utilerias;
 
 import com.example.proyecto_delivery.Entidades.Carrito;
+import com.example.proyecto_delivery.Modelos.Pagos;
 import com.example.proyecto_delivery.Modelos.Usuarios;
 
 import java.text.DecimalFormat;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /***
- * Clase de Singleton
+ * Clase de Singleton, encargada de los datos de sesion del usuario...
  */
 public class Logger {
     private static Logger Log;
@@ -21,9 +22,24 @@ public class Logger {
     private int IDFactura;
     private int NumeroOrden;
     private Boolean Gestionado;
+    private Pagos Pago;
+    private Boolean MostrarDatos;
+    /*Almacenar el municipio, el cual el usuario ha elegido
+    * en caso que la orden este en espera de modificacion...*/
+    private String  MunicipioLocal;
+
+    public void setMunicipioLocal(String MunicipioLocal){this.MunicipioLocal=MunicipioLocal;}
+    public String getMunicipioLocal(){return this.MunicipioLocal;}
+
+    public void setMostrarDatos(Boolean mostrarDatos){this.MostrarDatos=mostrarDatos;}
+    public Boolean getMostrarDatos(){return this.MostrarDatos;}
+
+    public void setPago(Pagos pago){this.Pago=pago;}
+    public Pagos getPago(){return this.Pago;}
 
     private Logger(){
         this.Gestionado=false;
+        this.MostrarDatos=false;
         this.ListaCarrito=new ArrayList<>();
     }
     //synchronized cuando se usan muchos hilos no hayan errores
@@ -87,4 +103,5 @@ public class Logger {
     public int getNumeroOrden(){return this.NumeroOrden;}
     public void setGestionado(Boolean gestionado){this.Gestionado=gestionado;}
     public Boolean getGestionado(){return this.Gestionado;}
+
 }

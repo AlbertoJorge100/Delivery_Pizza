@@ -164,7 +164,10 @@ public class DetalleActivity extends AppCompatActivity {
              * al carrito de compras. si no lo esta retornara -1, si lo esta retornara el
              * indice de la lista.
              */
-            if (indiceModificar == -1) {//No existe una coincidencia en el carrito de compras
+            if (indiceModificar == -1) {
+                //No existe una coincidencia en el carrito de compras
+
+                //Agregarlo al carrito de compras
                 Carrito aux = new Carrito();
                 aux.setIdProducto(DetalleActivity.this.IdProducto);
                 aux.setProducto(DetalleActivity.this.Titulo);

@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.proyecto_delivery.PagoActivity;
 import com.example.proyecto_delivery.R;
 
 public class FragmentDialog extends DialogFragment {
@@ -23,9 +22,9 @@ public class FragmentDialog extends DialogFragment {
         builder.setItems(municipios, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                PagoActivity.ResultadoMunicipio=municipios[i];
+                /*PagoActivity.ResultadoMunicipio=municipios[i];
                 PagoActivity.ValidarMunicipio=true;
-                PagoActivity.btnMunicipio.setText(municipios[i]);
+                PagoActivity.btnMunicipio.setText(municipios[i]);*/
             }
         });
         return builder.create();

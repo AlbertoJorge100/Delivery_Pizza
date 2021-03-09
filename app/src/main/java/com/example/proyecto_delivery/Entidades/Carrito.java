@@ -1,5 +1,9 @@
 package com.example.proyecto_delivery.Entidades;
 
+/**
+ * Clase encargada de almacenar los productos en el carrito de compras, que posteriormente
+ * seran enviados al servidor
+ */
 public class Carrito {
     private int idProducto;
     private String Producto;

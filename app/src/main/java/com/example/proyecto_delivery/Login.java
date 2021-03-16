@@ -128,7 +128,7 @@ public class Login extends AppCompatActivity implements Serializable {
             //Mostrando el progressdialog
             this.progressDialog.show();
             this.progressDialog.setMessage("Cargando...");
-            this.progressDialog.setCancelable(false);
+            this.progressDialog.setCancelable(true);
             //Direccion del servidor
             String url = getResources().getString(R.string.UrlAplicacion_local);
             Retrofit retrofit = new Retrofit
@@ -152,7 +152,7 @@ public class Login extends AppCompatActivity implements Serializable {
                             Toast.makeText(Login.this, aux.getMensaje(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(Login.this, "Response error: " + response.message() + " " + response.code(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Login.this,  response.message() + " " + response.code(), Toast.LENGTH_SHORT).show();
                     }
                     Login.this.progressDialog.dismiss();
                 }
@@ -161,7 +161,7 @@ public class Login extends AppCompatActivity implements Serializable {
                 public void onFailure(Call<RespuestaUsuarios> call, Throwable t) {
                     //Fallo la peticion
                     Login.this.progressDialog.dismiss();
-                    Toast.makeText(Login.this, "Error onFailure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e) {

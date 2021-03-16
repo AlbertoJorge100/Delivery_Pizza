@@ -50,7 +50,7 @@ public class ListaProducto extends AppCompatActivity {
     public static final String ID_CANTIDAD="cantss";
     //private List<Producto>lista=new ArrayList<>();
     //Progrres dialog para mostrar el progreso del web services
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     //Para el pullrefresh
     SwipeRefreshLayout swipeRefreshLayout;

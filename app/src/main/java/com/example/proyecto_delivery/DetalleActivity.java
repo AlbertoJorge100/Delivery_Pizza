@@ -215,7 +215,7 @@ public class DetalleActivity extends AppCompatActivity {
             ListaCarrito.lblTotal.setText("$ " + DetalleActivity.this.logger.getTotalPagar());
             Toast.makeText(DetalleActivity.this, "Producto modificado", Toast.LENGTH_SHORT).show();
             //Modificando el adaptador para actualizar los cambios realizados
-            ListaCarrito.adaptador.notifyDataSetChanged();
+            ListaCarrito.Adaptador.notifyDataSetChanged();
         }
         if(resultado){
             //No hubo ningun inconveniente con la suma de las cantidades, si fuera una adicion a un item ya existente

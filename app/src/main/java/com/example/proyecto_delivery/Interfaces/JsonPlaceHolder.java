@@ -72,6 +72,10 @@ public interface JsonPlaceHolder {
     @POST("AddFacturaProductos")
     Call<RespuestaProductos> InsertFacturaProductos(@Body Pagos facturaProductos);
 
+    //Validar las existencias que hay en el carrito de compras, al abrir la activity
+    @POST("getValidarExistencias")
+    Call<RespuestaProductos> ValidarExistencias(@Body List<Existencias> existencias);
+
     //Actualizar las categorias en: pull to refresh de lista de productos
     @GET("getExstCategoria/{idcategoria}")
     Call<List<Existencias>> GetExstCategorias(@Path("idcategoria") int idcategoria);

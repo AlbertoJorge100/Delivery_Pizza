@@ -1,5 +1,6 @@
 package com.example.proyecto_delivery;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,9 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyecto_delivery.Adaptadores.AdaptadorCarrito;
+import com.example.proyecto_delivery.BaseDatos.RespuestaProductos;
 import com.example.proyecto_delivery.Clases.classFactura;
 import com.example.proyecto_delivery.Clases.classProducto;
 import com.example.proyecto_delivery.Entidades.Carrito;
+import com.example.proyecto_delivery.Interfaces.JsonPlaceHolder;
+import com.example.proyecto_delivery.Modelos.Existencias;
 import com.example.proyecto_delivery.Utilerias.Logger;
 
 import java.text.DateFormat;
@@ -27,6 +31,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Activity Lista Carrito
@@ -42,7 +52,7 @@ public class ListaCarrito extends AppCompatActivity{
     //Atributos para usar el recyclerview
     /*El adaptador es estatico porque se necesita modificarlo desde la clase
     * "DetalleActivity" en cualquier momento. */
-    public AdaptadorCarrito Adaptador=new AdaptadorCarrito();
+    public static AdaptadorCarrito Adaptador=new AdaptadorCarrito();
     private List<Carrito> lista=new ArrayList<>();
     private LinearLayoutManager manager;
     private RecyclerView ListaCarrito;
@@ -76,34 +86,28 @@ public class ListaCarrito extends AppCompatActivity{
 
     private Button BtnPagar;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_carrito);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-        //ReciclerView
-        manager=new LinearLayoutManager(this);
+        this.progressDialog=new ProgressDialog(this);
         this.ListaCarrito=findViewById(R.id.ListaCarritos);
-        this.Adaptador.setListaCarrito(this.logger.getListaCarrito());
-        this.lista=logger.getListaCarrito();//Traspaso de datos singleton
-        this.ListaCarrito.setHasFixedSize(true);
-        this.ListaCarrito.setLayoutManager(manager);
-        this.ListaCarrito.setAdapter(Adaptador);
 
         /*Toast.makeText(ListaCarrito.this,this.lista.get(0).getProducto()
                 +" "+this.lista.get(0).getPrecioUnitario(),Toast.LENGTH_SHORT).show();*/
 
-        lblItems=findViewById(R.id.CarritolblItems);
-        lblProductos=findViewById(R.id.CarritolblProductos);
-        lblTotal=findViewById(R.id.Carrito_lblTotal);
+        //El seteo de totales se hace en ActualizarExistencias
+        this.lblItems=findViewById(R.id.CarritolblItems);
+        this.lblProductos=findViewById(R.id.CarritolblProductos);
+        this.lblTotal=findViewById(R.id.Carrito_lblTotal);
 
-        //Cantidad de items
-        lblItems.setText(Integer.toString(this.logger.getItems()));
-
-        //Seteo de totales
-        lblProductos.setText(Integer.toString(this.logger.getCantidadProductos()));
-        lblTotal.setText("$ "+this.logger.getTotalPagar());
+        /*Consultar al servidor, si existen modificaciones en las existencias que hemos seleccionado
+         * Conexion al recyclerview desde ahi...
+         * */
+        this.ActualizarExistencias();
 
         this.BtnPagar=findViewById(R.id.btnPagar);
         //Evento boton pagar
@@ -208,8 +212,129 @@ public class ListaCarrito extends AppCompatActivity{
                 startActivity(intn);
             }
         });
-
     }
+
+    /**
+     * Al ingresar a esta activity, la app consultara a la api rest, para poder actualizar
+     * las existencias y sincronizar las existencias en nuestra app y si las existencias seleccionadas
+     * en nuestro carrito de compras se ven afectadas este metodo modificara el stock de nuestro carrito
+     * y mostrara el mensaje.
+     */
+    private void ActualizarExistencias(){
+        this.progressDialog.show();
+        this.progressDialog.setMessage("Cargando...");
+        this.progressDialog.setCancelable(false);
+
+        /*Pasando las existencias de los productos a listaExistencias,
+        * para mandarlas a la api rest y validarlas...
+        * */
+        List<Existencias> listaExistencias=new ArrayList<>();
+        for(Carrito carrito: this.logger.getListaCarrito()){
+            Existencias existencias=new Existencias();
+            existencias.setId(carrito.getIdProducto());
+            existencias.setExistencias(carrito.getCantidad());
+            listaExistencias.add(existencias);
+        }
+        try{
+            String url=getResources().getString(R.string.UrlAplicacion_local);
+            Retrofit retrofit=new Retrofit
+                    .Builder()
+                    .baseUrl(url)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            JsonPlaceHolder jsonPlaceHolder=retrofit.create(JsonPlaceHolder.class);
+            Call<RespuestaProductos> call=jsonPlaceHolder.ValidarExistencias(listaExistencias);
+            call.enqueue(new Callback<RespuestaProductos>() {
+                @Override
+                public void onResponse(Call<RespuestaProductos> call, Response<RespuestaProductos> response) {
+                    //Modificar las existencias que trae el api rest
+                    RespuestaProductos respuesta=response.body();
+                    Boolean resp=false;
+                    if(response.isSuccessful()){
+                        if(respuesta.getCodigo().equals("300") && respuesta.getData().size()>0){
+                            resp=true;
+                        }
+                        //Finalizando el progressdialog
+                        progressDialog.dismiss();
+                        ModificarCarrito(resp,respuesta.getData());
+                    }else{
+                        progressDialog.dismiss();
+                        Toast.makeText(ListaCarrito.this, respuesta.getMensaje(), Toast.LENGTH_SHORT).show();
+                    }
+                    //Toast.makeText(ListaCarrito.this, response.message(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<RespuestaProductos> call, Throwable t) {
+                    Toast.makeText(ListaCarrito.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    ListaCarrito.this.progressDialog.dismiss();
+                }
+            });
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+            ListaCarrito.this.progressDialog.dismiss();
+        }
+        //Si se elimino todo de la lista de carrito, hay que cerrar la activity
+        if(this.logger.getListaCarrito().size()==0){
+            this.finish();
+        }
+    }
+
+
+    private void ModificarCarrito(Boolean modificar, List<Existencias> existencias){
+        if(modificar){
+            int idproducto=0, cont=0;
+            Carrito carrito=new Carrito();
+            String mensaje="";
+            for(int i=0;i<existencias.size();i++){
+                for(int j=0;j<this.logger.getListaCarrito().size();j++){
+                    int id=this.logger.getListaCarrito().get(j).getIdProducto();
+                    if(existencias.get(i).getId()==id){
+                        carrito=this.logger.getListaCarrito().get(j);
+                        mensaje+=(++cont)+" - "+carrito.getProducto()+". Stock: "+existencias.get(i).getExistencias()+"\n";
+                        int exst=existencias.get(i).getExistencias();
+                        if(exst==0){
+                            this.logger.getListaCarrito().remove(j);
+                        }else{
+                            Carrito car=this.logger.getListaCarrito().get(j);
+                            car.setCantidad(exst);
+                            car.setCant_Limite(exst);
+                            car.setTotal(car.getPrecioUnitario()*exst);
+                        }
+                        break;
+                    }
+                }
+            }
+            //Mostrando la lista de productos
+            AlertDialog.Builder builder=new AlertDialog.Builder(ListaCarrito.this);
+            builder.setTitle("Aviso");
+            builder.setIcon(R.drawable.warning);
+            builder.setMessage("Los siguientes productos fueron modificados en el servidor:\n"+mensaje);
+            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
+
+        //Seteo de totales...
+        this.lblItems.setText(Integer.toString(this.logger.getItems()));
+        this.lblProductos.setText(Integer.toString(this.logger.getCantidadProductos()));
+        this.lblTotal.setText("$ "+this.logger.getTotalPagar());
+
+        //ReciclerView
+        manager=new LinearLayoutManager(ListaCarrito.this);
+        ListaCarrito.this.Adaptador.setListaCarrito(logger.getListaCarrito());
+        ListaCarrito.this.lista=logger.getListaCarrito();//Traspaso de datos singleton
+        ListaCarrito.setHasFixedSize(true);
+        ListaCarrito.setLayoutManager(manager);
+        ListaCarrito.setAdapter(Adaptador);
+        //return mensaje;
+    }
+
 
     /**
      * Obteniendo Id factura de SQLite Pendiente de modificar

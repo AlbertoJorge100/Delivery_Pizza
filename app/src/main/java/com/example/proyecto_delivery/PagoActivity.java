@@ -10,9 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -84,8 +82,10 @@ public class PagoActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         //Conexiones
         this.progressDialog = new ProgressDialog(this);
+
         this.lblNumeroOrden = findViewById(R.id.lblNumeroOrden);
-        final TextView txbTelefono = findViewById(R.id.RegtxbTelefono);
+
+        //final TextView txbTelefono = findViewById(R.id.RegtxbTelefono);
         TextView lblTotalPago = findViewById(R.id.lblTotalTarjeta);
         //Mostrar el total a pagar
         lblTotalPago.setText("Total a pagar: " + getIntent().getStringExtra(ListaCarrito.ID_PAGO));
@@ -127,45 +127,6 @@ public class PagoActivity extends AppCompatActivity {
             }
         }
 
-
-        /*txbDireccion.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                *//*if(txbDireccion.length()>=100){
-                    txbDireccion.setError("Limite de escritura alcanzado");
-                }*//*
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });*/
-
-        //Switch on/off
-        Switch switchTelefono = findViewById(R.id.switchTelefono);
-        //Boolean estadoSwitch=switchTelefono.isChecked();  Verificar si esta encendido o apagado
-        txbTelefono.setText("7003-2797");
-        txbTelefono.setEnabled(false);
-        //Evento On/Off Switch
-        switchTelefono.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    //Switch telefono encendido
-                    txbTelefono.setEnabled(true);
-                } else {
-                    txbTelefono.setEnabled(false);
-                }
-            }
-        });
-
-
         ImageView img = findViewById(R.id.imgPago);
         //Conexion de imagen por Url
         String imagen = "https://www.tiendaidc.es/img/Logos%20de%20Pago.png";
@@ -178,7 +139,7 @@ public class PagoActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (!ResultadoMunicipio.equals("")) {
                     //Validacion si campos estan vacios
-                    if (ValidarCampos(new TextView[]{txbDireccion, txbTelefono,
+                    if (ValidarCampos(new TextView[]{txbDireccion,
                             txbPropietario, txbTarjeta, txbCVV, txbAnio, txbMes})) {
                         if (txbCVV.length() == 3) {
                             //CVV correcto
@@ -243,6 +204,8 @@ public class PagoActivity extends AppCompatActivity {
 
     /**
      * Gestionar la orden.
+     * Cada vez que se ingrese a esta activity, solo gestionara la orden una sola vez,
+     * las siguientes veces, antes de ingresar se validara la existencia de la orden en singleton...
      */
     private void Gestionar() {
         //Mostrando progressdialog
@@ -355,7 +318,6 @@ public class PagoActivity extends AppCompatActivity {
                             _Logger.setMostrarDatos(false);
                             if(_Logger.getMostrarDatos()){
                                 //Se estaban mostrando los datos, ya no hay que mostrarlos...
-
                                 _Logger.setMostrarDatos(false);
                             }
                             /*Modificacion de las compras del usuario, Paso de direccion de memoria del usuario
@@ -454,8 +416,9 @@ public class PagoActivity extends AppCompatActivity {
 
                     int existencias=lst_existencias.get(i).getExistencias();
                     Carrito carrito=this._Logger.getListaCarrito().get(j);
-                    carrito.setCantidad(existencias);
 
+                    //Almacenar el contador, nombre de producto, stock.
+                    resultado+=(++cont)+" - "+carrito.getProducto()+". Stock: "+existencias+"\n";
                     if(existencias==0){
                         //Las existencias del item seleccionado son 0, hay que eliminar el item
                         _Logger.getListaCarrito().remove(j);
@@ -463,9 +426,10 @@ public class PagoActivity extends AppCompatActivity {
                         //Modificando el total $ del item modificado, en singleton
                         Double precio=carrito.getPrecioUnitario();
                         carrito.setTotal(precio*existencias);
+                        carrito.setCantidad(existencias);
+                        carrito.setCant_Limite(existencias);
                     }
-                    //Almacenar el contador, nombre de producto, stock.
-                    resultado+=(++cont)+" - "+carrito.getProducto()+". Stock: "+existencias+"\n";
+
                     break;
                 }
             }

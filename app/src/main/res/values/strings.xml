@@ -32,7 +32,7 @@
     <string name="lblCntSalir">Salir</string>
 
     <!--Url del servidor local-->
-    <string name="UrlAplicacion_local">http://192.168.1.5/apilibros/public/api/</string>
+    <string name="UrlAplicacion_local">http://192.168.1.6/apilibros/public/api/</string>
     <string name="UrlAplication">Url</string>
 
     <!--PERFIL-->
